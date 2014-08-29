@@ -1,1 +1,7 @@
+.DS_Store
 .sass-cache
+node_modules
+bower_components
+assets/dist
+
+npm-debug.log

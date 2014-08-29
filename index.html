@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Starter</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
+
+	<script src="assets/dist/js/libs/modernizr.js"></script>
+	<link rel="stylesheet" href="assets/dist/css/main.css">
+</head>
+
+<body id="myapp" data-controller="module" data-action="action1 action2">
+	<div class="container">
+		<header class="banner" role="banner">
+			<nav class="primary-nav" role="navigation">
+				<ul>
+					<li><a href="/">Home</a></li>
+					<li><a href="/">Page 1</a></li>
+					<li><a href="/">Page 2</a></li>
+				</ul>
+			</nav>
+		</header> <!-- END .banner -->
+
+		<main role="main">
+
+			<h1>SASS Boilerplate</h1>
+			<div class="col col1">
+				<h2>Desktop first approach</h2>
+				<p>Current breakpoint <b id="breakpoint"></b></p>
+			</div>
+			<div class="col col2">
+				<h2>Mobile first approach</h2>
+				<p>Current breakpoint <b id="breakpoint-mobile-first"></b></p>
+			</div>
+		</main> <!-- END main -->
+
+		<aside class="sidebar" role="complementary">
+			A potential sidebar
+		</aside> <!-- END .sidebar -->
+
+		<footer class="footer" role="contentinfo">
+			&copy; 2014
+		</footer> <!-- END .footer -->
+
+	</div> <!-- END .container -->
+
+	<script src="assets/dist/js/app.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-XXXXX-X', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+</body>
+</html>

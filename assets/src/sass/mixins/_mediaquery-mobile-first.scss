@@ -1,0 +1,65 @@
+// Mobile first
+@mixin mbreakpoint($media, $ie:false) {
+	@if $media == large-phone {
+		@media only screen and (min-width: $break-large-phone) { @content; }
+	}@else if $media == small-tablet {
+		@media only screen and (min-width: $break-small-tablet) { @content; }
+	}@else if $media == tablet {
+		@media only screen and (min-width: $break-tablet) { @content; }
+	}@else if $media == desktop {
+		@media only screen and (min-width: $layout-size) { @content; }
+	}@else if $media == widescreen {
+		@media only screen and (min-width: $break-wide) { @content; }
+	}@else if $media == tall-screen {
+		@media only screen and (min-height: $break-tall-screen) { @content; }
+	}
+
+	// If IE argument is passed in, apply the styles to pages with class .lt-ie9
+	@if $ie == ie {
+		.lt-ie9 & {
+			@content;
+		}
+	}
+}
+
+// Breakpoints tests (only here for reference and ordering)
+// Mobile first breakpoint test
+#breakpoint-mobile-first {
+	&:before {
+		content: "phone (default)";
+	}
+
+	@include mbreakpoint(tall-screen) {
+		color: green;
+	}
+
+	@include mbreakpoint(large-phone) {
+		&:before {
+			content: "large-phone";
+		}
+	}
+
+	@include mbreakpoint(small-tablet) {
+		&:before {
+			content: "small-tablet";
+		}
+	}
+
+	@include mbreakpoint(tablet) {
+		&:before {
+			content: "tablet";
+		}
+	}
+
+	@include mbreakpoint(desktop, ie) {
+		&:before {
+			content: "desktop";
+		}
+	}
+
+	@include mbreakpoint(widescreen) {
+		&:before {
+			content: "widescreen";
+		}
+	}
+}
