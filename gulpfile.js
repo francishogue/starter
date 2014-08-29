@@ -25,7 +25,7 @@ var gulp = 			require('gulp'),
 // Options, project specifics
 var options = {};
 
-// browserSync options
+// browserSync options 
 options.browserSync = {
 	notify: false,
 	// If you already have a server,
@@ -33,7 +33,7 @@ options.browserSync = {
 	// uncomment the 'proxy' option and update it
 	server: {
 		baseDir: "./"
-	}
+	},
 	// proxy: 'en.francis.local:2200',
 	
 	// If you want to specify your IP adress (on more complex network), uncomment the 'host' option and update it
@@ -41,13 +41,12 @@ options.browserSync = {
 	
 	// If you want to run as https, uncomment the 'https' option
 	// https: true
-}
+};
+
 
 // Paths settings
-options = {
-	distPath: 'assets/dist/', 	// path to your assets distribution folder
-	srcPath: 'assets/src/'		// path to your assets source folder
-};
+options.distPath = 'assets/dist/'; 		// path to your assets distribution folder
+options.srcPath = 'assets/src/';		// path to your assets source folder
 
 options.paths = {
 	sass: 			options.srcPath + 'sass/',
@@ -127,10 +126,13 @@ gulp.task('scripts', function() {
 		options.paths.js + 'helpers.js', 
 		options.paths.js + 'app.js', 
 		'!' + options.paths.js + 'libs/modernizr.js'])
-			.pipe(sourcemaps.init())
+			.pipe(gutil.env.type !== 'prod' ? sourcemaps.init() : gutil.noop())
+			// .pipe(sourcemaps.init())
 			.pipe(concat('app.min.js'))
-			.pipe(uglify())
-			.pipe(sourcemaps.write())
+			.pipe(gutil.env.type === 'prod' ? uglify() : gutil.noop())
+			// .pipe(uglify())
+			.pipe(gutil.env.type !== 'prod' ? sourcemaps.write() : gutil.noop())
+			// .pipe(sourcemaps.write())
 			.pipe(gulp.dest(options.paths.destJs))
 			.pipe(notify('JS processed'))
 			.pipe(reload({stream: true, once: true}));
@@ -163,32 +165,32 @@ gulp.task('fonts', function() {
 });
 
 
-// JS hint task
-gulp.task('jshint', function() {
-	gulp.src(options.paths.js + '*.js')
-		.pipe(jshint('.jshintrc'))
-		.pipe(jshint.reporter('jshint-stylish'));
-});
+// JS hint task (WIP)
+// gulp.task('jshint', function() {
+// 	gulp.src(options.paths.js + '*.js')
+// 		.pipe(jshint('.jshintrc'))
+// 		.pipe(jshint.reporter('jshint-stylish'));
+// });
 
 
-// SCSS lint
-gulp.task('scss-lint', function() {
-	gulp.src(options.paths.sass + '**/*.scss')
-		.pipe(cache('scsslint'))
-		.pipe(scsslint({
-			customReport: scssLintReporter,
-			config: 'scsslint.yml'
-		}));
-});
+// SCSS lint (WIP)
+// gulp.task('scss-lint', function() {
+// 	gulp.src(options.paths.sass + '**/*.scss')
+// 		.pipe(cache('scsslint'))
+// 		.pipe(scsslint({
+// 			customReport: scssLintReporter,
+// 			config: 'scsslint.yml'
+// 		}));
+// });
 
-var scssLintReporter = function(file) {
-	if (!file.scsslint.success) {
-		gutil.log(file.scsslint.issues.length + ' issues found in ' + file.path);
-		// file.scsslint.issues.forEach(function(result) {
-		// 	gutil.log(result.reason+' on line '+result.line);
-		// });
-	}
-};
+// var scssLintReporter = function(file) {
+// 	if (!file.scsslint.success) {
+// 		gutil.log(file.scsslint.issues.length + ' issues found in ' + file.path);
+// 		// file.scsslint.issues.forEach(function(result) {
+// 		// 	gutil.log(result.reason+' on line '+result.line);
+// 		// });
+// 	}
+// };
 
 
 // Build and serve the output from the dist build
@@ -199,10 +201,11 @@ gulp.task('serve:dist', ['default'], function () {
 
 
 
-// gulp serve 				-> for dev
-// gulp 					-> for prod
+// gulp serve 				-> build for dev
+// gulp 					-> build for prod
+// gulp serve:dist 			-> build and serve the output from the dist build
 
-gulp.task('serve', ['sass', 'scripts', 'images', 'fonts', 'browser-sync'], function () {
+gulp.task('serve', ['sass', 'scripts', 'modernizr', 'images', 'fonts', 'browser-sync'], function () {
 
 	// watch Sass
 	gulp.watch(options.paths.sass + '**/*.scss', ['sass']);
@@ -217,7 +220,7 @@ gulp.task('serve', ['sass', 'scripts', 'images', 'fonts', 'browser-sync'], funct
 	gulp.watch(options.paths.fonts + '**/*.{ttf,woff,eof,svg}', ['fonts']);
 });
 
-gulp.task('build', ['sass', 'scripts', 'images', 'fonts'], function () {
+gulp.task('build', ['sass', 'scripts', 'modernizr', 'images', 'fonts'], function () {
 	return gulp.src(options.paths.dist + '**/*').pipe(size({title: 'build', gzip: false}));
 });
 

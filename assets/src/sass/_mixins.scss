@@ -1,4 +1,7 @@
 @import "mixins/others";
+
+// Pick your mediaquery solution: comment out the one you don't need
 @import "mixins/mediaquery-desktop-first";
 @import "mixins/mediaquery-mobile-first";
+
 @import "mixins/transition"; // WIP
