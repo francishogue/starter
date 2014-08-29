@@ -3,12 +3,6 @@ starter
 
 HTML, SASS, JS starter kit running on Gulp.
 
-## ToDo's
-- review TITOOLBOX.isMobile() (we could find a more bulletproof solution)
-- add commonly used mixins (transitions)
-- add SCSS lint
-- add jshint
-
 ## Requirements
  - Node
  - Ruby
@@ -35,3 +29,9 @@ HTML, SASS, JS starter kit running on Gulp.
 - gulp serve 				-> build for dev
 - gulp 						-> build for prod
 - gulp serve:dist 			-> build and serve the output from the dist build
+
+## ToDo's
+- review TITOOLBOX.isMobile() (we could find a more bulletproof solution)
+- add commonly used mixins (transitions)
+- add SCSS lint
+- add jshint
