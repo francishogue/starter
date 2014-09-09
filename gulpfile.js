@@ -1,6 +1,5 @@
 var gulp = 			require('gulp'),
 	gutil = 		require('gulp-util'),
-	clean = 		require('gulp-clean'),
 	del = 			require('del'),
 	sass = 			require('gulp-ruby-sass'),
 	autoprefixer = 	require('gulp-autoprefixer'),
