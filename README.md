@@ -3,18 +3,14 @@ starter
 
 HTML, SASS, JS starter kit running on Gulp.
 
-## ToDo's
-- review TITOOLBOX.isMobile() (we could find a more bulletproof solution)
-- add commonly used mixins (transitions)
-- add SCSS lint
-- add jshint
-
 ## Requirements
  - Node
  - Ruby
- - Bundler
- - Gulp
- - bower
+ - Bundler (gem install bundler)
+ - Gulp (npm install --global gulp)
+ - bower (not exactly required but very useful to quickly add librairies to your project)
+	- bower search plugin
+	- copy the required files manually into your project from /bower_components
 
 ## Installation
 - npm install
@@ -22,8 +18,8 @@ HTML, SASS, JS starter kit running on Gulp.
 
 ## Configuration
 - gulpfile
-	- update options.browserSync to match your needs (all infos are in there)
-- sass
+	- gulpfile.js update options.browserSync to match your needs (all infos are in there)
+- SASS
 	- _mixins.scss
 		- Pick your mediaquery solution: comment out the one you don't need
 	- _variables.scss
@@ -31,5 +27,11 @@ HTML, SASS, JS starter kit running on Gulp.
 
 # Usage
 - gulp serve 				-> build for dev
-- gulp 						-> build for prod
+- gulp 					-> build for prod
 - gulp serve:dist 			-> build and serve the output from the dist build
+
+## ToDo's
+- review TITOOLBOX.isMobile() (we could find a more bulletproof solution)
+- add commonly used mixins (transitions)
+- add SCSS lint
+- add jshint
