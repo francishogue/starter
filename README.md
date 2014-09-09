@@ -6,7 +6,7 @@ HTML, SASS, JS starter kit running on Gulp.
 ## Requirements
  - Node
  - Ruby
- - Bundler
+ - Bundler (gem install bundler)
  - Gulp
  - bower (not exactly required but very useful to quickly add librairies to your project)
 	- bower search plugin
@@ -27,7 +27,7 @@ HTML, SASS, JS starter kit running on Gulp.
 
 # Usage
 - gulp serve 				-> build for dev
-- gulp 						-> build for prod
+- gulp 					-> build for prod
 - gulp serve:dist 			-> build and serve the output from the dist build
 
 ## ToDo's
