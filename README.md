@@ -7,7 +7,7 @@ HTML, SASS, JS starter kit running on Gulp.
  - Node
  - Ruby
  - Bundler (gem install bundler)
- - Gulp
+ - Gulp (npm install --global gulp)
  - bower (not exactly required but very useful to quickly add librairies to your project)
 	- bower search plugin
 	- copy the required files manually into your project from /bower_components
