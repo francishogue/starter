@@ -18,8 +18,8 @@ HTML, SASS, JS starter kit running on Gulp.
 
 ## Configuration
 - gulpfile
-	- update options.browserSync to match your needs (all infos are in there)
-- sass
+	- gulpfile.js update options.browserSync to match your needs (all infos are in there)
+- SASS
 	- _mixins.scss
 		- Pick your mediaquery solution: comment out the one you don't need
 	- _variables.scss
