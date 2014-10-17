@@ -95,7 +95,7 @@ gulp.task('browser-sync', function() {
 });
 
 
-// SASS
+// Sass
 /**
  * 1. Run sass with bundle exec: bundle exec sass. For bundler to work correctly you must add the Gemfile and Gemfile.lock to your gulp.src() glob.
  * 2. Filtering stream to only css files (gulp-ruby-sass with sourcemap *.map)
@@ -113,7 +113,7 @@ gulp.task('sass', function() {
 		.pipe(gutil.env.type === 'prod' ? minifyCSS() : gutil.noop())
 		.pipe(gulp.dest(options.paths.destCss))
 		.pipe(filter('**/*.css')) /* 2 */
-		.pipe(notify('SASS processed'))
+		.pipe(notify('Sass processed'))
 		.pipe(reload({stream:true}));
 });
 
@@ -136,6 +136,7 @@ gulp.task('scripts', function() {
 			.pipe(notify('JS processed'))
 			.pipe(reload({stream: true, once: true}));
 });
+
 
 // Copy Modernizr
 gulp.task('modernizr', function () {
