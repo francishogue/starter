@@ -23,7 +23,6 @@
     "gulp-notify": "~1.4.0",
     "gulp-plumber": "~0.6.3",
     "gulp-ruby-sass": "~0.6.0",
-    "gulp-sass": "^1.2.0",
     "gulp-scss-lint": "~0.1.0",
     "gulp-size": "~0.4.0",
     "gulp-sourcemaps": "^1.2.4",

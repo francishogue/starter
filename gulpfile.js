@@ -2,7 +2,6 @@ var gulp = 			require('gulp'),
 	gutil = 		require('gulp-util'),
 	del = 			require('del'),
 	sass = 			require('gulp-ruby-sass'),
-	libsass = 		require('gulp-sass'),
 	autoprefixer = 	require('gulp-autoprefixer'),
 	minifyCSS = 	require('gulp-minify-css'),
 	concat = 		require('gulp-concat'),
@@ -67,16 +66,6 @@ options.sass = {
 	require: ['susy']
 };
 
-// gulp-sass options
-options.libsass = {
-	errLogToConsole: false,
-	sourceMap: true,
-	sourceComments: 'normal',
-	precision: 10,
-	imagePath: 'assets/src/images',
-	// sync: true
-};
-
 // gulp-autoprefixer
 options.autoprefixer = {
 	support: [
@@ -122,41 +111,6 @@ gulp.task('sass', function() {
 		.pipe(gulp.dest(options.paths.destCss))
 		.pipe(filter('**/*.css')) /* 2 */
 		.pipe(notify('Sass processed'))
-		.pipe(reload({stream:true}));
-});
-
-
-// Node Sass
-gulp.task('libsass', function() {
-	return gulp.src(options.paths.sass + '**/*.scss')
-
-		.pipe(sourcemaps.init())
-
-		.pipe(libsass(options.libsass))
-
-		// Catch any SCSS errors and prevent them from crashing gulp
-        .on('error', function (error) {
-            // console.error(error);
-            gutil.log(gutil.colors.red(error.message));
-            this.emit('end');
-        })
-
-        // Load existing internal sourcemap
-        // .pipe(sourcemaps.init({loadMaps: true}))
-
-        // Add vendor prefixes
-		// .pipe(autoprefixer(options.autoprefixer.support))
-
-		// .pipe(gutil.env.type === 'prod' ? minifyCSS() : gutil.noop())
-		
-		// Write final .map file
-		.pipe(sourcemaps.write())
-
-		// Output the processed CSS
-		.pipe(gulp.dest(options.paths.destCss))
-
-		.pipe(notify('Sass processed'))
-		.pipe(size({title: 'CSS'}))
 		.pipe(reload({stream:true}));
 });
 
@@ -252,21 +206,6 @@ gulp.task('serve', ['sass', 'scripts', 'modernizr', 'images', 'fonts', 'browser-
 
 	// watch Sass
 	gulp.watch(options.paths.sass + '**/*.scss', ['sass']);
-
-	// watch JS
-	gulp.watch(options.paths.js + '**/*.js', ['scripts']);
-
-	// watch images
-	gulp.watch(options.paths.images + '**/*', ['images']);
-
-	// watch fonts
-	gulp.watch(options.paths.fonts + '**/*.{ttf,woff,eof,svg}', ['fonts']);
-});
-
-gulp.task('nodeserve', ['libsass', 'scripts', 'modernizr', 'images', 'fonts', 'browser-sync'], function () {
-
-	// watch Sass
-	gulp.watch(options.paths.sass + '**/*.scss', ['libsass']);
 
 	// watch JS
 	gulp.watch(options.paths.js + '**/*.js', ['scripts']);
