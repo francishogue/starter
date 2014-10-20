@@ -1,7 +1,7 @@
 starter
 =======
 
-HTML, SASS, JS starter kit running on Gulp.
+HTML, Sass, JS starter kit running on Gulp.
 
 ## Requirements
  - Node
@@ -19,7 +19,7 @@ HTML, SASS, JS starter kit running on Gulp.
 ## Configuration
 - gulpfile
 	- gulpfile.js update options.browserSync to match your needs (all infos are in there)
-- SASS
+- Sass
 	- _mixins.scss
 		- Pick your mediaquery solution: comment out the one you don't need
 	- _variables.scss
