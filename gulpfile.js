@@ -78,6 +78,14 @@ options.autoprefixer = {
 	]
 };
 
+// gulp-uglify
+options.uglify = {
+    compress: {
+        pure_funcs: ['console.log']
+    }
+};
+
+
 
 
 // Delete the dist directory
@@ -125,7 +133,7 @@ gulp.task('scripts', function() {
 			.pipe(gutil.env.type !== 'prod' ? sourcemaps.init() : gutil.noop())
 			// .pipe(sourcemaps.init())
 			.pipe(concat('app.min.js'))
-			.pipe(gutil.env.type === 'prod' ? uglify() : gutil.noop())
+			.pipe(gutil.env.type === 'prod' ? uglify(options.uglify) : gutil.noop())
 			// .pipe(uglify())
 			.pipe(gutil.env.type !== 'prod' ? sourcemaps.write() : gutil.noop())
 			// .pipe(sourcemaps.write())
