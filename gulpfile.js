@@ -20,6 +20,8 @@ var gulp = 			require('gulp'),
 	newer = 		require('gulp-newer'),
 	reload = 		browserSync.reload;
 
+// Custom config
+var config = require('./gulp-config.json');
 
 // Options, project specifics
 var options = {};
@@ -28,15 +30,17 @@ var options = {};
 options.browserSync = {
 	notify: false,
 	// If you already have a server,
-	// comment out the 'server' option
-	// uncomment the 'proxy' option and update it
+	// comment out the 'server' option (right below) and
+	// uncomment the 'proxy' option and update its value in 'gulp-config.json'.
+	// You can easily create 'gulp-config.json' from 'gulp-config-sample.json'.
 	server: {
 		baseDir: "./"
 	},
-	// proxy: 'en.francis.local:2200',
+
+	// proxy: config.browsersync.proxy,
 	
 	// If you want to specify your IP adress (on more complex network), uncomment the 'host' option and update it
-	// host: '10.100.1.1',
+	// host: config.browsersync.host,
 	
 	// If you want to run as https, uncomment the 'https' option
 	// https: true

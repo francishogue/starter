@@ -3,5 +3,6 @@
 node_modules
 bower_components
 assets/dist
+gulp-config.json
 
 npm-debug.log

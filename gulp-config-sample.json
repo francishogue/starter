@@ -1,0 +1,6 @@
+{
+  "browsersync": {
+    "proxy": "en.francis.local:8080",
+    "host": "10.100.3.55"
+  }
+}
