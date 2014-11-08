@@ -11,13 +11,13 @@ Project Name
 // Normalize.css
 @import "normalize";
 
-// Susy grid
-@import "susy";
-
 // Mixins, helpers & variables (@font-face fonts are in variables)
 @import "variables";
 @import "mixins";
 @import "helpers";
+
+// Jeet Grid System) (quick reference in jeet/index.scss or http://jeet.gs/)
+@import "jeet/index";
 
 // Animations
 @import "anim";
@@ -32,13 +32,3 @@ Project Name
 @import "modules";
 
 // Others...
-
-
-
-
-
-
-// Adding sourcemaps manually until gulp-autoprefixer is fixed
-// https://github.com/Metrime/gulp-autoprefixer/pull/22
-
-/*# sourceMappingURL=main.css.map */

@@ -1,13 +1,11 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    colorize (0.7.3)
-    sass (3.4.0)
-    scss-lint (0.7.0)
-      colorize
-      sass
-    susy (2.1.3)
-      sass (>= 3.3.0, < 3.5)
+    rainbow (2.0.0)
+    sass (3.4.7)
+    scss-lint (0.29.0)
+      rainbow (~> 2.0)
+      sass (~> 3.4.0)
 
 PLATFORMS
   ruby
@@ -15,4 +13,3 @@ PLATFORMS
 DEPENDENCIES
   sass
   scss-lint
-  susy

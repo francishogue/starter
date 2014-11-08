@@ -51,16 +51,8 @@ $color-placeholder:			#ff0000;
 /* =======================================================================
 Grid
 ========================================================================== */
-$susy: (
-	columns: 12,  // The number of columns in your grid
-	gutters: 1/4, // The size of a gutter in relation to a single column
-	math: fluid,
-	output: float,
-	gutter-position: after,
-	container: 940px,
-	debug: (
-		image: show,
-		output: overlay,
-		toggle: top right,
-	)
-);
+$jeet-gutter:           	3;
+$jeet-parent-first:     	false;
+$jeet-layout-direction: 	"LTR";
+$jeet-max-width:        	1200px;
+$jeet-container-padding:	20px;

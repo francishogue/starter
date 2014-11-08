@@ -2,25 +2,26 @@
 Shell
 ========================================================================== */
 .container {
-	@include container();
-	padding: 0 20px;
+	@include center($jeet-max-width, $jeet-container-padding);
 }
 
 .col1 {
-	@include span(6);
+	@include column(1/4, $offset: 1/4);
 }
 
 .col2 {
-	@include span(last 6);
+	@include column(2/4);	
 }
 
 .col {
 	@include breakpoint(large-phone) {
-		@include span(full);
+		@include stack();
 	}
 }
 
-main {}
+main {
+	@include clearfix;
+}
 
 
 /* =======================================================================

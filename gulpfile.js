@@ -1,7 +1,7 @@
 var gulp = 			require('gulp'),
 	gutil = 		require('gulp-util'),
 	del = 			require('del'),
-	sass = 			require('gulp-ruby-sass'),
+	sass = 			require('gulp-sass'),
 	autoprefixer = 	require('gulp-autoprefixer'),
 	minifyCSS = 	require('gulp-minify-css'),
 	concat = 		require('gulp-concat'),
@@ -9,7 +9,6 @@ var gulp = 			require('gulp'),
 	uglify = 		require('gulp-uglify'),
 	filter = 		require('gulp-filter'),
 	scsslint = 		require('gulp-scss-lint'),
-	plumber = 		require('gulp-plumber'),
 	notify = 		require('gulp-notify'),
 	size = 			require('gulp-size'),
 	sourcemaps = 	require('gulp-sourcemaps'),
@@ -17,7 +16,6 @@ var gulp = 			require('gulp'),
 	imagemin = 		require('gulp-imagemin'),
 	cache = 		require('gulp-cache'),
 	changed = 		require('gulp-changed'),
-	newer = 		require('gulp-newer'),
 	reload = 		browserSync.reload;
 
 // Custom config
@@ -58,16 +56,20 @@ options.paths = {
 	fonts: 			options.srcPath + 'fonts/',
 	destCss: 		options.distPath + 'css/',
 	destJs: 		options.distPath + 'js/',
-	destImages: 	options.distPath + 'img/',
+	destImages: 	options.distPath + 'images/',
 	destFonts: 		options.distPath + 'fonts/'
 };
 
-// gulp-ruby-sass options
-options.sass = {
-	style: 'expanded',
+// gulp-sass options
+options.libsass = {
+	errLogToConsole: false,
+	// sourceMap: true,
+	// sourceComments: 'map',
 	precision: 10,
-	bundleExec: true,
-	require: ['susy']
+	outputStyle: 'expanded',
+	imagePath: 'assets/src/images',
+	// includePaths: ['./bower_components/jeet/scss'] // This is currently broken in gulp-sass 1.2.2
+	// sync: true
 };
 
 // gulp-autoprefixer
@@ -90,8 +92,6 @@ options.uglify = {
 };
 
 
-
-
 // Delete the dist directory
 gulp.task('clean', function(cb) {
 	del([options.distPath], cb);
@@ -104,28 +104,43 @@ gulp.task('browser-sync', function() {
 });
 
 
-// Sass
-/**
- * 1. Run sass with bundle exec: bundle exec sass. For bundler to work correctly you must add the Gemfile and Gemfile.lock to your gulp.src() glob.
- * 2. Filtering stream to only css files (gulp-ruby-sass with sourcemap *.map)
- */
+// Node Sass
 gulp.task('sass', function() {
-	return gulp.src([options.paths.sass + '**/*.scss', 'Gemfile', 'Gemfile.lock']) /* 1 */
-		.pipe(plumber(function(error) {
-			gutil.beep();
-			gutil.log(gutil.colors.red(error.message));
-			notify(error.message);
-			this.emit('end');
-		}))
-		.pipe(sass(options.sass))
+	// List all .scss files that need to be processed
+	return gulp.src([
+			options.paths.sass + 'main.scss'
+		])
+
+		.pipe(sourcemaps.init())
+
+		.pipe(sass(options.libsass))
+
+		// Catch any SCSS errors and prevent them from crashing gulp
+        .on('error', function (error) {
+            gutil.log(gutil.colors.red(error.message));
+            this.emit('end');
+        })
+
+        // Hotfix while gulp-sass sourcemaps gets fixed
+        // https://github.com/dlmanning/gulp-sass/issues/106#issuecomment-60977513
+        .pipe(sourcemaps.write())
+		.pipe(sourcemaps.init({loadMaps: true}))
+
+        // Add vendor prefixes
 		.pipe(autoprefixer(options.autoprefixer.support))
+
 		.pipe(gutil.env.type === 'prod' ? minifyCSS() : gutil.noop())
+		
+		// Write final .map file
+		.pipe(sourcemaps.write())
+
+		// Output the processed CSS
 		.pipe(gulp.dest(options.paths.destCss))
-		.pipe(filter('**/*.css')) /* 2 */
-		.pipe(notify('Sass processed'))
+
+		.pipe(notify('Sass compiled'))
+		.pipe(size({title: 'CSS'}))
 		.pipe(reload({stream:true}));
 });
-
 
 // JS
 gulp.task('scripts', function() {
@@ -135,14 +150,11 @@ gulp.task('scripts', function() {
 		options.paths.js + 'app.js', 
 		'!' + options.paths.js + 'libs/modernizr.js'])
 			.pipe(gutil.env.type !== 'prod' ? sourcemaps.init() : gutil.noop())
-			// .pipe(sourcemaps.init())
 			.pipe(concat('app.min.js'))
 			.pipe(gutil.env.type === 'prod' ? uglify(options.uglify) : gutil.noop())
-			// .pipe(uglify())
 			.pipe(gutil.env.type !== 'prod' ? sourcemaps.write() : gutil.noop())
-			// .pipe(sourcemaps.write())
 			.pipe(gulp.dest(options.paths.destJs))
-			.pipe(notify('JS processed'))
+			.pipe(notify('JS compiled'))
 			.pipe(reload({stream: true, once: true}));
 });
 
@@ -150,6 +162,7 @@ gulp.task('scripts', function() {
 // Copy Modernizr
 gulp.task('modernizr', function () {
   return gulp.src([options.paths.js + 'libs/modernizr.js'])
+  	.pipe(uglify())
     .pipe(gulp.dest(options.paths.destJs));
 });
 
@@ -216,16 +229,22 @@ gulp.task('serve:dist', ['default'], function () {
 
 gulp.task('serve', ['sass', 'scripts', 'modernizr', 'images', 'fonts', 'browser-sync'], function () {
 
-	// watch Sass
-	gulp.watch(options.paths.sass + '**/*.scss', ['sass']);
+	// Watch Sass
+	gulp.watch(options.paths.sass + '**/*.scss', ['sass'])
+	.on('change', function(evt) {
+		// notify('[watcher] File ' + evt.path.replace(/.*(?=sass)/,'') + ' was ' + evt.type + ', compiling...');
+        console.log(
+            '[watcher] File ' + evt.path.replace(/.*(?=sass)/,'') + ' was ' + evt.type + ', compiling...'
+        );
+    });
 
-	// watch JS
+	// Watch JS
 	gulp.watch(options.paths.js + '**/*.js', ['scripts']);
 
-	// watch images
+	// Watch images
 	gulp.watch(options.paths.images + '**/*', ['images']);
 
-	// watch fonts
+	// Watch fonts
 	gulp.watch(options.paths.fonts + '**/*.{ttf,woff,eof,svg}', ['fonts']);
 });
 

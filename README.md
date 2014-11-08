@@ -18,16 +18,20 @@ HTML, Sass, JS starter kit running on Gulp.
 
 ## Configuration
 - gulpfile
-	- gulpfile.js update options.browserSync to match your needs (all infos are in there)
+	- BrowserSync
+		- If you already have a server,
+		- comment out the 'server' option (right below) and
+		- uncomment the 'proxy' option and update its value in 'gulp-config.json'.
+		- You can easily create 'gulp-config.json' by dupplicating 'gulp-config-sample.json'.
 - Sass
 	- _mixins.scss
-		- Pick your mediaquery solution: comment out the one you don't need
+		- Pick your mediaquery solution (desktop first or mobile first): comment out the one you don't need
 	- _variables.scss
-		- If you need Susy grid - take the time to set it up correctly
+		- If you need Jeet grid system - take the time to set it up correctly
 
 # Usage
 - gulp serve 				-> build for dev
-- gulp 					-> build for prod
+- gulp 						-> build for prod
 - gulp serve:dist 			-> build and serve the output from the dist build
 
 ## ToDo's
