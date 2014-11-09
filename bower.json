@@ -2,7 +2,6 @@
   "name": "starter",
   "dependencies": {
     "modernizr": "latest",
-    "jquery": "1.x",
-    "jeet": "~6.1.2"
+    "jquery": "1.x"
   }
 }

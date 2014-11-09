@@ -2,21 +2,15 @@
 Shell
 ========================================================================== */
 .container {
-	@include center($jeet-max-width, $jeet-container-padding);
 }
 
 .col1 {
-	@include column(1/4, $offset: 1/4);
 }
 
 .col2 {
-	@include column(2/4);	
 }
 
 .col {
-	@include breakpoint(large-phone) {
-		@include stack();
-	}
 }
 
 main {

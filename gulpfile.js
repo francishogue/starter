@@ -1,3 +1,7 @@
+/* jshint node:true */
+
+'use strict';
+
 var gulp = 			require('gulp'),
 	gutil = 		require('gulp-util'),
 	del = 			require('del'),
@@ -16,6 +20,7 @@ var gulp = 			require('gulp'),
 	imagemin = 		require('gulp-imagemin'),
 	cache = 		require('gulp-cache'),
 	changed = 		require('gulp-changed'),
+	filter = 		require('gulp-filter'),
 	reload = 		browserSync.reload;
 
 // Custom config
@@ -91,6 +96,13 @@ options.uglify = {
     }
 };
 
+// gulp-imagemin
+options.imagemin = {
+    progressive: true,
+    interlaced: true,
+    optimizationLevel: 3
+};
+
 
 // Delete the dist directory
 gulp.task('clean', function(cb) {
@@ -145,25 +157,30 @@ gulp.task('sass', function() {
 // JS
 gulp.task('scripts', function() {
 	return gulp.src([
-		options.paths.js + 'libs/*.js', 
-		options.paths.js + 'helpers.js', 
-		options.paths.js + 'app.js', 
-		'!' + options.paths.js + 'libs/modernizr.js'])
-			.pipe(gutil.env.type !== 'prod' ? sourcemaps.init() : gutil.noop())
-			.pipe(concat('app.min.js'))
-			.pipe(gutil.env.type === 'prod' ? uglify(options.uglify) : gutil.noop())
-			.pipe(gutil.env.type !== 'prod' ? sourcemaps.write() : gutil.noop())
-			.pipe(gulp.dest(options.paths.destJs))
-			.pipe(notify('JS compiled'))
-			.pipe(reload({stream: true, once: true}));
+			options.paths.js + 'libs/*.js', 
+			options.paths.js + 'helpers.js', 
+			options.paths.js + 'app.js', 
+			'!' + options.paths.js + 'libs/modernizr.js'
+		])
+		.pipe(gutil.env.type !== 'prod' ? sourcemaps.init() : gutil.noop())
+		.pipe(concat('app.min.js'))
+		.pipe(gutil.env.type === 'prod' ? uglify(options.uglify) : gutil.noop())
+		.pipe(gutil.env.type !== 'prod' ? sourcemaps.write() : gutil.noop())
+		.pipe(gulp.dest(options.paths.destJs))
+		.pipe(notify('JS compiled'))
+		.pipe(reload({stream: true, once: true})
+	);
 });
 
 
 // Copy Modernizr
 gulp.task('modernizr', function () {
-  return gulp.src([options.paths.js + 'libs/modernizr.js'])
-  	.pipe(uglify())
-    .pipe(gulp.dest(options.paths.destJs));
+	return gulp.src([
+  			options.paths.js + 'libs/modernizr.js'
+  		])
+  		.pipe(uglify())
+    	.pipe(gulp.dest(options.paths.destJs)
+	);
 });
 
 
@@ -171,11 +188,8 @@ gulp.task('modernizr', function () {
 gulp.task('images', function() {
 	return gulp.src(options.paths.images + '**/*')
 		.pipe(changed(options.paths.destImages)) // Ignore unchanged files
-		.pipe(imagemin({
-			progressive: true,
-      		interlaced: true
-		})) // Optimize
-		.pipe(gulp.dest(options.paths.destImages));
+		.pipe(imagemin(options.imagemin)) // Optimize
+		.pipe(gulp.dest(options.paths.destImages))
 });
 
 
