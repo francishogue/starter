@@ -16,7 +16,7 @@ HTML, Sass, JS starter kit running on Gulp.
 
 ## Installation
 - npm install
-- bundle install
+- ~~bundle install~~
 
 ## Configuration
 - gulpfile.js
