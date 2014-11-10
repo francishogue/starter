@@ -29,9 +29,9 @@ HTML, Sass, JS starter kit running on Gulp.
 
 # Usage
 ```Shell
-- gulp serve 				-> build for dev
-- gulp 					-> build for prod
-- gulp serve:dist 			-> build and serve the output from the dist build
+- gulp serve          -> build for dev
+- gulp                -> build for prod
+- gulp serve:dist     -> build and serve the output from the dist build
 ```
 
 ## ToDo's
