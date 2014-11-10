@@ -29,10 +29,10 @@ var options = {};
 
 // browserSync options 
 
-  // If you already have a server,
-  // Comment out the 'server' option (below) and
-  // Uncomment the 'proxy' option and update its value in 'gulp-config.json'.
-  // You can easily create 'gulp-config.json' from 'gulp-config-sample.json'.
+  // If you already have a server
+  // Comment out the 'server' option (below)
+  // Uncomment the 'proxy' option and update its value in 'gulp-config.json'
+  // You can easily create 'gulp-config.json' from 'gulp-config-sample.json'
   // Uncomment 'browserSyncConfig' line below
 
 // Custom browserSync config
