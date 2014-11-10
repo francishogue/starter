@@ -273,7 +273,7 @@ gulp.task('serve:dist', ['default'], function () {
 });
 
 gulp.task('build', ['sass', 'scripts', 'modernizr', 'images', 'fonts'], function () {
-	return gulp.src(options.paths.dist + '**/*').pipe(size({title: 'build', gzip: false}));
+	return gulp.src(options.distPath + '**/*').pipe(size({title: 'build', gzip: false}));
 });
 
 gulp.task('default', ['clean'], function () {
