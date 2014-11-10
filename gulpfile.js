@@ -33,10 +33,10 @@ var options = {};
   // Comment out the 'server' option (below)
   // Uncomment the 'proxy' option and update its value in 'gulp-config.json'
   // You can easily create 'gulp-config.json' from 'gulp-config-sample.json'
-  // Uncomment 'browserSyncConfig' line below
+  // Uncomment 'var config' line below
 
 // Custom browserSync config
-// var browserSyncConfig = require('./gulp-config.json');
+// var config = require('./gulp-config.json');
 
 options.browserSync = {
 	notify: false,
