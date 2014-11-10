@@ -27,7 +27,7 @@ HTML, Sass, JS starter kit running on Gulp.
 		- Pick your mediaquery solution (desktop first or mobile first): comment out the one you don't need
 	- _variables.scss
 
-# Usage
+## Usage
 ```Shell
 - gulp serve          -> build for dev
 - gulp                -> build for prod
