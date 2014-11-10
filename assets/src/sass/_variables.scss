@@ -1,12 +1,12 @@
 /* =======================================================================
 Responsive
 ========================================================================== */
-$layout-size: 				980px; // Size at which the design should fit on desktop
-$break-large-phone: 		480px;
-$break-small-tablet: 		600px;
-$break-tablet: 				768px;
-$break-wide: 				1200px;
-$break-tall-screen: 		780px;
+$layout-size:             980px; // Size at which the design should fit on desktop
+$break-large-phone:       480px;
+$break-small-tablet:      600px;
+$break-tablet:            768px;
+$break-wide:              1200px;
+$break-tall-screen:       780px;
 
 
 /* =======================================================================
@@ -14,14 +14,14 @@ Font-face
 ========================================================================== */
 /*
 @font-face {
-	font-family: 'MuseoSans300';
-	src: url('../fonts/MuseoSans_300-webfont.eot');
-	src: url('../fonts/MuseoSans_300-webfont.eot?#iefix') format('embedded-opentype'),
-		 url('../fonts/MuseoSans_300-webfont.woff') format('woff'),
-		 url('../fonts/MuseoSans_300-webfont.ttf')  format('truetype'),
-		 url('../fonts/MuseoSans_300-webfont.svg#svgFontName') format('svg');
-	font-weight: normal;
-	font-style: normal;
+  font-family: 'MuseoSans300';
+  src: url('../fonts/MuseoSans_300-webfont.eot');
+  src: url('../fonts/MuseoSans_300-webfont.eot?#iefix') format('embedded-opentype'),
+     url('../fonts/MuseoSans_300-webfont.woff') format('woff'),
+     url('../fonts/MuseoSans_300-webfont.ttf')  format('truetype'),
+     url('../fonts/MuseoSans_300-webfont.svg#svgFontName') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 */
 
@@ -31,21 +31,21 @@ Variables
 ========================================================================== */
 
 // Fonts stacks
-$font-stack:				Arial, Verdana, sans-serif;
-$font-stack-alt:			Georgia, serif;
-$font-size-base:			16px;
-$line-height-base:			1.4;
+$font-stack:              Arial, Verdana, sans-serif;
+$font-stack-alt:          Georgia, serif;
+$font-size-base:          16px;
+$line-height-base:        1.4;
 
 // Typography
-$color-text:				#333;
-$color-link:				#ff0000;
-$color-link-visited:		lighten($color-link, 20%);
-$color-link-hover:			darken($color-link, 20%);
-$color-link-active:			darken($color-link, 40%);
+$color-text:              #333;
+$color-link:              #ff0000;
+$color-link-visited:      lighten($color-link, 20%);
+$color-link-hover:        darken($color-link, 20%);
+$color-link-active:       darken($color-link, 40%);
 
 // Highlight
-$color-selection:			#ff0000;
-$color-placeholder:			#ff0000;
+$color-selection:         #ff0000;
+$color-placeholder:       #ff0000;
 
 
 /* =======================================================================

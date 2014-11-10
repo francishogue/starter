@@ -2,12 +2,12 @@
 // $sprites2x: sprite-map("test/sprites-retina/icons/*.png", $spacing: 20px);   // import 2x sprites
 
 .icon {
-	display: inline-block;
-	position: relative;
-	@include hide-text;
+  display: inline-block;
+  position: relative;
+  @include hide-text;
 }
 
 // Example
 // .icon-test {
-// 	@include retina-sprite(icon-test);
+//  @include retina-sprite(icon-test);
 // }

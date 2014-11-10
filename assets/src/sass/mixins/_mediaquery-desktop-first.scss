@@ -1,58 +1,58 @@
 // Desktop first
 @mixin breakpoint($media) {
-	@if $media == phone {
-		@media only screen and (max-width: $break-large-phone - 1) { @content; }
-	}@else if $media == large-phone {
-		@media only screen and (max-width: $break-small-tablet - 1) { @content; }
-	}@else if $media == small-tablet {
-		@media only screen and (max-width: $break-tablet - 1) { @content; }
-	}@else if $media == tablet {
-		@media only screen and (min-width: $break-tablet) and (max-width: $layout-size - 1) { @content; }
-	}@else if $media == widescreen {
-		@media only screen and (min-width: $break-wide) { @content; }
-	}@else if $media == tall-screen {
-		@media only screen and (min-height: $break-tall-screen) { @content; }
-	}
+  @if $media == phone {
+    @media only screen and (max-width: $break-large-phone - 1) { @content; }
+  }@else if $media == large-phone {
+    @media only screen and (max-width: $break-small-tablet - 1) { @content; }
+  }@else if $media == small-tablet {
+    @media only screen and (max-width: $break-tablet - 1) { @content; }
+  }@else if $media == tablet {
+    @media only screen and (min-width: $break-tablet) and (max-width: $layout-size - 1) { @content; }
+  }@else if $media == widescreen {
+    @media only screen and (min-width: $break-wide) { @content; }
+  }@else if $media == tall-screen {
+    @media only screen and (min-height: $break-tall-screen) { @content; }
+  }
 }
 
 // Breakpoints tests (only here for reference and ordering)
 // Desktop first breakpoint test
 #breakpoint {
-	&:before {
-		content: "desktop (default)";
-	}
+  &:before {
+    content: "desktop (default)";
+  }
 
-	@include breakpoint(tall-screen) {
-		color: green;
-	}
+  @include breakpoint(tall-screen) {
+    color: green;
+  }
 
-	@include breakpoint(tablet) {
-		&:before {
-			content: "tablet";
-		}
-	}
+  @include breakpoint(tablet) {
+    &:before {
+      content: "tablet";
+    }
+  }
 
-	@include breakpoint(small-tablet) {
-		&:before {
-			content: "small-tablet";
-		}
-	}
+  @include breakpoint(small-tablet) {
+    &:before {
+      content: "small-tablet";
+    }
+  }
 
-	@include breakpoint(large-phone) {
-		&:before {
-			content: "large-phone";
-		}
-	}
+  @include breakpoint(large-phone) {
+    &:before {
+      content: "large-phone";
+    }
+  }
 
-	@include breakpoint(phone) {
-		&:before {
-			content: "phone";
-		}
-	}
+  @include breakpoint(phone) {
+    &:before {
+      content: "phone";
+    }
+  }
 
-	@include breakpoint(widescreen) {
-		&:before {
-			content: "widescreen";
-		}
-	}
+  @include breakpoint(widescreen) {
+    &:before {
+      content: "widescreen";
+    }
+  }
 }
