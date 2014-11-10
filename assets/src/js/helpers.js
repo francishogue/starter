@@ -147,26 +147,9 @@ window.requestInterval = function(fn, delay) {
 	// Detect whether device supports orientationchange event, otherwise fall back to
 	// the resize event.
 	TITOOLBOX.orientationEvent = function() {
-		var supportsOrientationChange = "onorientationchange" in window;
-		return supportsOrientationChange ? "orientationchange" : "resize";
+		var supportsOrientationChange = 'onorientationchange' in window;
+		return supportsOrientationChange ? 'orientationchange' : 'resize';
 	};
-
-
-	// Mobile detect
-	TITOOLBOX.isMobile = function() {
-		if( navigator.userAgent.match(/Android/i) ||
-			navigator.userAgent.match(/webOS/i) ||
-			navigator.userAgent.match(/iPhone/i) ||
-			navigator.userAgent.match(/iPad/i) ||
-			navigator.userAgent.match(/iPod/i) ||
-			navigator.userAgent.match(/BlackBerry/i) ||
-			navigator.userAgent.match(/Windows Phone/i) ){
-			return true;
-		} else {
-			return false;
-		}
-	};
-
 
 	// Transition event name
 	// $(selector).one(TITOOLBOX.transEndEventName(), function(e) {});

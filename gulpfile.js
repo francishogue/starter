@@ -11,33 +11,37 @@ var gulp = 			require('gulp'),
 	concat = 		require('gulp-concat'),
 	jshint = 		require('gulp-jshint'),
 	uglify = 		require('gulp-uglify'),
-	filter = 		require('gulp-filter'),
-	scsslint = 		require('gulp-scss-lint'),
+	// filter = 		require('gulp-filter'),
+	// scsslint = 		require('gulp-scss-lint'),
 	notify = 		require('gulp-notify'),
 	size = 			require('gulp-size'),
 	sourcemaps = 	require('gulp-sourcemaps'),
 	browserSync = 	require('browser-sync'),
 	imagemin = 		require('gulp-imagemin'),
-	cache = 		require('gulp-cache'),
+	// cache = 		require('gulp-cache'),
 	changed = 		require('gulp-changed'),
-	filter = 		require('gulp-filter'),
+	// filter = 		require('gulp-filter'),
 	reload = 		browserSync.reload;
 
-// Custom config
-var config = require('./gulp-config.json');
 
 // Options, project specifics
 var options = {};
 
 // browserSync options 
+
+  // If you already have a server,
+  // Comment out the 'server' option (below) and
+  // Uncomment the 'proxy' option and update its value in 'gulp-config.json'.
+  // You can easily create 'gulp-config.json' from 'gulp-config-sample.json'.
+  // Uncomment 'browserSyncConfig' line below
+
+// Custom browserSync config
+// var browserSyncConfig = require('./gulp-config.json');
+
 options.browserSync = {
 	notify: false,
-	// If you already have a server,
-	// comment out the 'server' option (right below) and
-	// uncomment the 'proxy' option and update its value in 'gulp-config.json'.
-	// You can easily create 'gulp-config.json' from 'gulp-config-sample.json'.
 	server: {
-		baseDir: "./"
+		baseDir: './'
 	},
 
 	// proxy: config.browsersync.proxy,
@@ -189,24 +193,27 @@ gulp.task('images', function() {
 	return gulp.src(options.paths.images + '**/*')
 		.pipe(changed(options.paths.destImages)) // Ignore unchanged files
 		.pipe(imagemin(options.imagemin)) // Optimize
-		.pipe(gulp.dest(options.paths.destImages))
+		.pipe(gulp.dest(options.paths.destImages));
 });
 
 
 // Fonts
 gulp.task('fonts', function() {
-	gulp.src(options.paths.fonts + '**/*.{ttf,woff,eof,svg}')
+	return gulp.src(options.paths.fonts + '**/*.{ttf,woff,eof,svg}')
 		.pipe(changed(options.paths.destFonts)) // Ignore unchanged files
 		.pipe(gulp.dest(options.paths.destFonts));
 });
 
 
 // JS hint task (WIP)
-// gulp.task('jshint', function() {
-// 	gulp.src(options.paths.js + '*.js')
-// 		.pipe(jshint('.jshintrc'))
-// 		.pipe(jshint.reporter('jshint-stylish'));
-// });
+gulp.task('jshint', function() {
+  return gulp.src([
+      options.paths.js + '*.js',
+      './gulpfile.js'
+    ])
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter('jshint-stylish'));
+});
 
 
 // SCSS lint (WIP)
@@ -229,37 +236,40 @@ gulp.task('fonts', function() {
 // };
 
 
-// Build and serve the output from the dist build
-gulp.task('serve:dist', ['default'], function () {
-	browserSync(options.browserSync);
-});
+// gulp serve           -> build for dev
+// gulp                 -> build for prod
+// gulp serve:dist      -> build and serve the output from the dist build
 
-
-
-
-// gulp serve 				-> build for dev
-// gulp 					-> build for prod
-// gulp serve:dist 			-> build and serve the output from the dist build
-
-gulp.task('serve', ['sass', 'scripts', 'modernizr', 'images', 'fonts', 'browser-sync'], function () {
+gulp.task('serve', [
+    'sass',
+    'jshint',
+    'scripts',
+    'modernizr',
+    'images',
+    'fonts',
+    'browser-sync'
+  ], function() {
 
 	// Watch Sass
 	gulp.watch(options.paths.sass + '**/*.scss', ['sass'])
 	.on('change', function(evt) {
 		// notify('[watcher] File ' + evt.path.replace(/.*(?=sass)/,'') + ' was ' + evt.type + ', compiling...');
-        console.log(
-            '[watcher] File ' + evt.path.replace(/.*(?=sass)/,'') + ' was ' + evt.type + ', compiling...'
-        );
-    });
+    console.log(
+      '[watcher] File ' + evt.path.replace(/.*(?=sass)/,'') + ' was ' + evt.type + ', compiling...'
+    );
+  });
 
 	// Watch JS
-	gulp.watch(options.paths.js + '**/*.js', ['scripts']);
+	gulp.watch(options.paths.js + '**/*.js', ['jshint', 'scripts']);
 
 	// Watch images
 	gulp.watch(options.paths.images + '**/*', ['images']);
 
-	// Watch fonts
-	gulp.watch(options.paths.fonts + '**/*.{ttf,woff,eof,svg}', ['fonts']);
+});
+
+// Build and serve the output from the dist build
+gulp.task('serve:dist', ['default'], function () {
+  browserSync(options.browserSync);
 });
 
 gulp.task('build', ['sass', 'scripts', 'modernizr', 'images', 'fonts'], function () {

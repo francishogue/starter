@@ -1,3 +1,7 @@
+/* global MYAPP */
+
+'use strict';
+
 /*
 	Markup-based means of executing JavaScript on page load (using jQuery)
 
@@ -12,9 +16,7 @@
 	Replace "MYAPP" to match what you put as the body ID (but capitalized)
 */
 
-(function($, window, document, undefined){
-
-	'use strict';
+(function($, window, document, undefined) {
 
 	var MYAPP = window.MYAPP = window.MYAPP || {};
 
