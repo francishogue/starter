@@ -30,12 +30,15 @@ HTML, Sass, JS starter kit running on Gulp.
 		- If you need Jeet grid system - take the time to set it up correctly
 
 # Usage
+```Shell
 - gulp serve 				-> build for dev
 - gulp 						-> build for prod
 - gulp serve:dist 			-> build and serve the output from the dist build
+```
 
 ## ToDo's
-- review TITOOLBOX.isMobile() (we could find a more bulletproof solution)
-- add commonly used mixins (transitions)
+- ~~review TITOOLBOX.isMobile() (we could find a more bulletproof solution)~~
+	- Looks like [device.js](https://github.com/matthewhudson/device.js) is a lot better/solid
+- ~~add commonly used mixins (transitions)~~
 - add SCSS lint
-- add jshint
+- ~~add jshint~~
