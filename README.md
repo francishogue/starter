@@ -1,13 +1,15 @@
 starter
 =======
 
-HTML, Sass, JS starter kit running on Gulp.
+HTML, Sass, JS starter kit running on Gulp. 
+
+***using LibSass, with no grid system pre-installed***
 
 ## Requirements
  - Node
- - Ruby
- - Bundler (gem install bundler)
- - Gulp (npm install --global gulp)
+ - ~~Ruby~~ (not required because of LibSass)
+ - ~~Bundler (```gem install bundler```)~~ (not required because of LibSass)
+ - Gulp (```npm install --global gulp```)
  - bower (not exactly required but very useful to quickly add librairies to your project)
 	- bower search plugin
 	- copy the required files manually into your project from /bower_components
@@ -17,22 +19,18 @@ HTML, Sass, JS starter kit running on Gulp.
 - bundle install
 
 ## Configuration
-- gulpfile
+- gulpfile.js
 	- BrowserSync
-		- If you already have a server,
-		- comment out the 'server' option (right below) and
-		- uncomment the 'proxy' option and update its value in 'gulp-config.json'.
-		- You can easily create 'gulp-config.json' by dupplicating 'gulp-config-sample.json'.
+		- If you already have a server, read the instructions inside the gulpfile
 - Sass
 	- _mixins.scss
 		- Pick your mediaquery solution (desktop first or mobile first): comment out the one you don't need
 	- _variables.scss
-		- If you need Jeet grid system - take the time to set it up correctly
 
 # Usage
 ```Shell
 - gulp serve 				-> build for dev
-- gulp 						-> build for prod
+- gulp 					-> build for prod
 - gulp serve:dist 			-> build and serve the output from the dist build
 ```
 
