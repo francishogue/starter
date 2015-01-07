@@ -8,9 +8,6 @@ HTML, Sass, JS starter kit running on Gulp.
 ## Requirements
  - Node
  - Gulp (```npm install --global gulp```)
- - bower (not exactly required but very useful to quickly add librairies to your project)
-	- bower search plugin
-	- copy the required files manually into your project from /bower_components
 
 ## Installation
 - npm install
