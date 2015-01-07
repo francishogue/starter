@@ -3,12 +3,10 @@ starter
 
 HTML, Sass, JS starter kit running on Gulp. 
 
-***using LibSass, with no grid system pre-installed***
+***using LibSass (can't use it with Susy)***
 
 ## Requirements
  - Node
- - ~~Ruby~~ (not required because of LibSass)
- - ~~Bundler (```gem install bundler```)~~ (not required because of LibSass)
  - Gulp (```npm install --global gulp```)
  - bower (not exactly required but very useful to quickly add librairies to your project)
 	- bower search plugin
@@ -16,7 +14,6 @@ HTML, Sass, JS starter kit running on Gulp.
 
 ## Installation
 - npm install
-- ~~bundle install~~
 
 ## Configuration
 - gulpfile.js
