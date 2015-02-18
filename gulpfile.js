@@ -193,7 +193,7 @@ gulp.task('images', function() {
 
 // Fonts
 gulp.task('fonts', function() {
-	return gulp.src(options.paths.fonts + '**/*.{ttf,woff,eof,svg}')
+	return gulp.src(options.paths.fonts + '**/*.{ttf,woff,woff2,eot,svg}')
 		.pipe(changed(options.paths.destFonts)) // Ignore unchanged files
 		.pipe(gulp.dest(options.paths.destFonts));
 });
