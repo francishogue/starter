@@ -11,6 +11,9 @@ Project Name
 // Normalize.css
 @import "normalize";
 
+// @import "../../bower_components/susy/sass/susy";
+@import "susy/susy";
+
 // Mixins, helpers & variables (@font-face fonts are in variables)
 @import "variables";
 @import "mixins";

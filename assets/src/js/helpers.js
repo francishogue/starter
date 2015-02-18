@@ -5,21 +5,21 @@
   var method;
   var noop = function () {};
   var methods = [
-    'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
-    'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
-    'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
-    'timeStamp', 'trace', 'warn'
+	'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+	'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+	'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+	'timeStamp', 'trace', 'warn'
   ];
   var length = methods.length;
   var console = (window.console = window.console || {});
 
   while (length--) {
-    method = methods[length];
+	method = methods[length];
 
-    // Only stub undefined methods.
-    if (!console[method]) {
-      console[method] = noop;
-    }
+	// Only stub undefined methods.
+	if (!console[method]) {
+	  console[method] = noop;
+	}
   }
 }());
 
@@ -29,10 +29,10 @@
 // shim layer with setTimeout fallback
 window.requestAnimFrame = (function(){
   return  window.requestAnimationFrame       ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame    ||
+	  window.webkitRequestAnimationFrame ||
+	  window.mozRequestAnimationFrame    ||
   function( callback ){
-    window.setTimeout(callback, 1000 / 60);
+	window.setTimeout(callback, 1000 / 60);
   };
 })();
 
@@ -55,20 +55,20 @@ window.requestAnimFrame = (function(){
  */
 window.requestTimeout = function(fn, delay) {
   if( !window.requestAnimationFrame       &&
-    !window.webkitRequestAnimationFrame &&
-    !window.mozRequestAnimationFrame    &&
-    !window.oRequestAnimationFrame      &&
-    !window.msRequestAnimationFrame)
-      return window.setTimeout(fn, delay);
+	!window.webkitRequestAnimationFrame &&
+	!window.mozRequestAnimationFrame    &&
+	!window.oRequestAnimationFrame      &&
+	!window.msRequestAnimationFrame)
+	  return window.setTimeout(fn, delay);
 
   var start = new Date().getTime(),
-    handle = new Object();
+	handle = new Object();
 
   function loop(){
-    var current = new Date().getTime(),
-    delta = current - start;
+	var current = new Date().getTime(),
+	delta = current - start;
 
-    delta >= delay ? fn.call() : handle.value = requestAnimFrame(loop);
+	delta >= delay ? fn.call() : handle.value = requestAnimFrame(loop);
   };
 
   handle.value = requestAnimFrame(loop);
@@ -96,25 +96,25 @@ window.clearRequestTimeout = function(handle) {
  */
 window.requestInterval = function(fn, delay) {
   if( !window.requestAnimationFrame       &&
-    !window.webkitRequestAnimationFrame &&
-    !(window.mozRequestAnimationFrame && window.mozCancelRequestAnimationFrame) && // Firefox 5 ships without cancel support
-    !window.oRequestAnimationFrame      &&
-    !window.msRequestAnimationFrame)
-      return window.setInterval(fn, delay);
+	!window.webkitRequestAnimationFrame &&
+	!(window.mozRequestAnimationFrame && window.mozCancelRequestAnimationFrame) && // Firefox 5 ships without cancel support
+	!window.oRequestAnimationFrame      &&
+	!window.msRequestAnimationFrame)
+	  return window.setInterval(fn, delay);
 
   var start = new Date().getTime(),
-    handle = new Object();
+	handle = new Object();
 
   function loop() {
-    var current = new Date().getTime(),
-      delta = current - start;
+	var current = new Date().getTime(),
+	  delta = current - start;
 
-    if(delta >= delay) {
-      fn.call();
-      start = new Date().getTime();
-    }
+	if(delta >= delay) {
+	  fn.call();
+	  start = new Date().getTime();
+	}
 
-    handle.value = requestAnimFrame(loop);
+	handle.value = requestAnimFrame(loop);
   };
 
   handle.value = requestAnimFrame(loop);
@@ -147,28 +147,28 @@ window.requestInterval = function(fn, delay) {
   // Detect whether device supports orientationchange event, otherwise fall back to
   // the resize event.
   TITOOLBOX.orientationEvent = function() {
-    var supportsOrientationChange = 'onorientationchange' in window;
-    return supportsOrientationChange ? 'orientationchange' : 'resize';
+	var supportsOrientationChange = 'onorientationchange' in window;
+	return supportsOrientationChange ? 'orientationchange' : 'resize';
   };
 
   // Transition event name
   // $(selector).one(TITOOLBOX.transEndEventName(), function(e) {});
   TITOOLBOX.transEndEventName = function() {
-    var transEndEventNames = {
-        'WebkitTransition' : 'webkitTransitionEnd',
-        'MozTransition'    : 'transitionend',
-        'OTransition'      : 'oTransitionEnd otransitionend',
-        'msTransition'     : 'MSTransitionEnd',
-        'transition'       : 'transitionend'
-      },
-      transEndEventName = transEndEventNames[Modernizr.prefixed('transition')];
+	var transEndEventNames = {
+		'WebkitTransition' : 'webkitTransitionEnd',
+		'MozTransition'    : 'transitionend',
+		'OTransition'      : 'oTransitionEnd otransitionend',
+		'msTransition'     : 'MSTransitionEnd',
+		'transition'       : 'transitionend'
+	  },
+	  transEndEventName = transEndEventNames[Modernizr.prefixed('transition')];
 
-    // Android 4.1.2 hotfix (Samsung S3)
-    if (navigator.userAgent.toLowerCase().indexOf('android 4.1') !== -1) {
-      transEndEventName = 'webkitTransitionEnd';
-    }
+	// Android 4.1.2 hotfix (Samsung S3)
+	if (navigator.userAgent.toLowerCase().indexOf('android 4.1') !== -1) {
+	  transEndEventName = 'webkitTransitionEnd';
+	}
 
-    return transEndEventName;
+	return transEndEventName;
   };
 
 })(jQuery, window);

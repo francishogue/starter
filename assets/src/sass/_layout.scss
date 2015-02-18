@@ -5,16 +5,18 @@ Shell
 }
 
 .col1 {
+	@include span(3);
 }
 
 .col2 {
+	@include span(3);
 }
 
 .col {
 }
 
 main {
-  @include clearfix;
+	@include clearfix;
 }
 
 

@@ -11,16 +11,12 @@ var gulp = 			require('gulp'),
 	concat = 		require('gulp-concat'),
 	jshint = 		require('gulp-jshint'),
 	uglify = 		require('gulp-uglify'),
-	// filter = 		require('gulp-filter'),
-	// scsslint = 		require('gulp-scss-lint'),
 	notify = 		require('gulp-notify'),
 	size = 			require('gulp-size'),
 	sourcemaps = 	require('gulp-sourcemaps'),
 	browserSync = 	require('browser-sync'),
 	imagemin = 		require('gulp-imagemin'),
-	// cache = 		require('gulp-cache'),
 	changed = 		require('gulp-changed'),
-	// filter = 		require('gulp-filter'),
 	reload = 		browserSync.reload;
 
 
@@ -29,11 +25,11 @@ var options = {};
 
 // browserSync options 
 
-  // If you already have a server
-  // Comment out the 'server' option (below)
-  // Uncomment the 'proxy' option and update its value in 'gulp-config.json'
-  // You can easily create 'gulp-config.json' from 'gulp-config-sample.json'
-  // Uncomment 'var config' line below
+// If you already have a server
+// Comment out the 'server' option (below)
+// Uncomment the 'proxy' option and update its value in 'gulp-config.json'
+// You can easily create 'gulp-config.json' from 'gulp-config-sample.json'
+// Uncomment 'var config' line below
 
 // Custom browserSync config
 // var config = require('./gulp-config.json');
@@ -72,13 +68,11 @@ options.paths = {
 // gulp-sass options
 options.libsass = {
 	errLogToConsole: false,
-	// sourceMap: true,
-	// sourceComments: 'map',
+	sourceMap: true,
+	sourceComments: true,
 	precision: 10,
 	outputStyle: 'expanded',
 	imagePath: 'assets/src/images',
-	// includePaths: ['./bower_components/jeet/scss'] // This is currently broken in gulp-sass 1.2.2
-	// sync: true
 };
 
 // gulp-autoprefixer
@@ -95,16 +89,16 @@ options.autoprefixer = {
 
 // gulp-uglify
 options.uglify = {
-    compress: {
-        pure_funcs: ['console.log']
-    }
+	compress: {
+		pure_funcs: ['console.log']
+	}
 };
 
 // gulp-imagemin
 options.imagemin = {
-    progressive: true,
-    interlaced: true,
-    optimizationLevel: 3
+	progressive: true,
+	interlaced: true,
+	optimizationLevel: 3
 };
 
 
@@ -132,17 +126,17 @@ gulp.task('sass', function() {
 		.pipe(sass(options.libsass))
 
 		// Catch any SCSS errors and prevent them from crashing gulp
-        .on('error', function (error) {
-            gutil.log(gutil.colors.red(error.message));
-            this.emit('end');
-        })
+		.on('error', function (error) {
+			gutil.log(gutil.colors.red(error.message));
+			this.emit('end');
+		})
 
-        // Hotfix while gulp-sass sourcemaps gets fixed
-        // https://github.com/dlmanning/gulp-sass/issues/106#issuecomment-60977513
-        .pipe(sourcemaps.write())
+		// Hotfix while gulp-sass sourcemaps gets fixed
+		// https://github.com/dlmanning/gulp-sass/issues/106#issuecomment-60977513
+		.pipe(sourcemaps.write())
 		.pipe(sourcemaps.init({loadMaps: true}))
 
-        // Add vendor prefixes
+		// Add vendor prefixes
 		.pipe(autoprefixer(options.autoprefixer.support))
 
 		.pipe(gutil.env.type === 'prod' ? minifyCSS() : gutil.noop())
@@ -180,10 +174,10 @@ gulp.task('scripts', function() {
 // Copy Modernizr
 gulp.task('modernizr', function () {
 	return gulp.src([
-  			options.paths.js + 'libs/modernizr.js'
-  		])
-  		.pipe(uglify())
-    	.pipe(gulp.dest(options.paths.destJs)
+			options.paths.js + 'libs/modernizr.js'
+		])
+		.pipe(uglify())
+		.pipe(gulp.dest(options.paths.destJs)
 	);
 });
 
@@ -207,33 +201,13 @@ gulp.task('fonts', function() {
 
 // JS hint task (WIP)
 gulp.task('jshint', function() {
-  return gulp.src([
-      options.paths.js + '*.js',
-      './gulpfile.js'
-    ])
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('jshint-stylish'));
+	return gulp.src([
+		options.paths.js + '*.js',
+		'./gulpfile.js'
+	])
+	.pipe(jshint('.jshintrc'))
+	.pipe(jshint.reporter('jshint-stylish'));
 });
-
-
-// SCSS lint (WIP)
-// gulp.task('scss-lint', function() {
-// 	gulp.src(options.paths.sass + '**/*.scss')
-// 		.pipe(cache('scsslint'))
-// 		.pipe(scsslint({
-// 			customReport: scssLintReporter,
-// 			config: 'scsslint.yml'
-// 		}));
-// });
-
-// var scssLintReporter = function(file) {
-// 	if (!file.scsslint.success) {
-// 		gutil.log(file.scsslint.issues.length + ' issues found in ' + file.path);
-// 		// file.scsslint.issues.forEach(function(result) {
-// 		// 	gutil.log(result.reason+' on line '+result.line);
-// 		// });
-// 	}
-// };
 
 
 // gulp serve           -> build for dev
@@ -241,23 +215,23 @@ gulp.task('jshint', function() {
 // gulp serve:dist      -> build and serve the output from the dist build
 
 gulp.task('serve', [
-    'sass',
-    'jshint',
-    'scripts',
-    'modernizr',
-    'images',
-    'fonts',
-    'browser-sync'
-  ], function() {
+	'sass',
+	'jshint',
+	'scripts',
+	'modernizr',
+	'images',
+	'fonts',
+	'browser-sync'
+	], function() {
 
-	// Watch Sass
-	gulp.watch(options.paths.sass + '**/*.scss', ['sass'])
-	.on('change', function(evt) {
-		// notify('[watcher] File ' + evt.path.replace(/.*(?=sass)/,'') + ' was ' + evt.type + ', compiling...');
-    console.log(
-      '[watcher] File ' + evt.path.replace(/.*(?=sass)/,'') + ' was ' + evt.type + ', compiling...'
-    );
-  });
+		// Watch Sass
+		gulp.watch(options.paths.sass + '**/*.scss', ['sass'])
+		.on('change', function(evt) {
+			// notify('[watcher] File ' + evt.path.replace(/.*(?=sass)/,'') + ' was ' + evt.type + ', compiling...');
+		console.log(
+			'[watcher] File ' + evt.path.replace(/.*(?=sass)/,'') + ' was ' + evt.type + ', compiling...'
+		);
+	});
 
 	// Watch JS
 	gulp.watch(options.paths.js + '**/*.js', ['jshint', 'scripts']);
@@ -269,7 +243,7 @@ gulp.task('serve', [
 
 // Build and serve the output from the dist build
 gulp.task('serve:dist', ['default'], function () {
-  browserSync(options.browserSync);
+	browserSync(options.browserSync);
 });
 
 gulp.task('build', ['sass', 'scripts', 'modernizr', 'images', 'fonts'], function () {

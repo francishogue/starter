@@ -1,5 +1,5 @@
 // WIP
 // usage: @include transition(color .3s ease, font-size .5s ease);
 @mixin transition ($args...) {
-  transition: $args;
+	transition: $args;
 }

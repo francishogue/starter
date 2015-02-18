@@ -2,6 +2,7 @@
   "name": "starter",
   "dependencies": {
     "modernizr": "latest",
-    "jquery": "1.x"
+    "jquery": "1.x",
+    "susy": "~2.2.2"
   }
 }

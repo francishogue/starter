@@ -3,7 +3,7 @@ starter
 
 HTML, Sass, JS starter kit running on Gulp. 
 
-***using LibSass, with no grid system pre-installed***
+***using LibSass, with Susy***
 
 ## Requirements
  - Node
@@ -15,7 +15,7 @@ HTML, Sass, JS starter kit running on Gulp.
 	- copy the required files manually into your project from /bower_components
 
 ## Installation
-- npm install
+- sudo npm install
 - ~~bundle install~~
 
 ## Configuration
@@ -38,5 +38,5 @@ HTML, Sass, JS starter kit running on Gulp.
 - ~~review TITOOLBOX.isMobile() (we could find a more bulletproof solution)~~
 	- Looks like [device.js](https://github.com/matthewhudson/device.js) is a lot better/solid, include it on a per project basis
 - ~~add commonly used mixins (transitions)~~
-- add SCSS lint
+- add SCSS lint 
 - ~~add jshint~~
