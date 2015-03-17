@@ -211,7 +211,7 @@ gulp.task('jshint', function() {
 
 
 // gulp serve           -> build for dev
-// gulp                 -> build for prod
+// gulp build           -> build for prod
 // gulp serve:dist      -> build and serve the output from the dist build
 
 gulp.task('serve', [
