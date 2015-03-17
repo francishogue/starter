@@ -246,11 +246,12 @@ gulp.task('serve:dist', ['default'], function () {
 	browserSync(options.browserSync);
 });
 
-gulp.task('build', ['sass', 'scripts', 'modernizr', 'images', 'fonts'], function () {
+gulp.task('build', ['clean'], function () {
+	gutil.env.type = 'prod';
+	gulp.start('sass', 'scripts', 'modernizr', 'images', 'fonts');
 	return gulp.src(options.distPath + '**/*').pipe(size({title: 'build', gzip: false}));
 });
 
-gulp.task('default', ['clean'], function () {
-	gutil.env.type = 'prod';
+gulp.task('default', function () {
 	gulp.start('build');
 });
