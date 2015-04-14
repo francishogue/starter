@@ -2,14 +2,15 @@
 Shell
 ========================================================================== */
 .container {
+	@include container;
 }
 
 .col1 {
-	@include span(3);
+	@include span(6);
 }
 
 .col2 {
-	@include span(3);
+	@include span(6 last);
 }
 
 .col {

@@ -1,16 +1,16 @@
 // Mobile first
 @mixin mbreakpoint($media, $ie:false) {
-	@if $media == large-phone {
-		@media only screen and (min-width: $break-large-phone) { @content; }
-	}@else if $media == small-tablet {
-		@media only screen and (min-width: $break-small-tablet) { @content; }
-	}@else if $media == tablet {
-		@media only screen and (min-width: $break-tablet) { @content; }
-	}@else if $media == desktop {
-		@media only screen and (min-width: $layout-size) { @content; }
-	}@else if $media == widescreen {
+	@if $media == small {
+		@media only screen and (min-width: $break-xsmall) { @content; }
+	}@else if $media == medium {
+		@media only screen and (min-width: $break-small) { @content; }
+	}@else if $media == large {
+		@media only screen and (min-width: $break-medium) { @content; }
+	}@else if $media == xlarge {
+		@media only screen and (min-width: $destkop-layout-size) { @content; }
+	}@else if $media == xxl {
 		@media only screen and (min-width: $break-wide) { @content; }
-	}@else if $media == tall-screen {
+	}@else if $media == tall {
 		@media only screen and (min-height: $break-tall-screen) { @content; }
 	}
 
@@ -25,41 +25,42 @@
 // Breakpoints tests (only here for reference and ordering)
 // Mobile first breakpoint test
 #breakpoint-mobile-first {
-  &:before {
-    content: "phone (default)";
-  }
+	&:before {
+		display: block;
+		content: "xsmall (default --> 320px to 479px)";
+	}
 
-  @include mbreakpoint(tall-screen) {
-    color: green;
-  }
+	@include mbreakpoint(tall) {
+		color: green;
+	}
 
-  @include mbreakpoint(large-phone) {
-    &:before {
-      content: "large-phone";
-    }
-  }
+	@include mbreakpoint(small) {
+		&:before {
+			content: "small --> min-width: 480px";
+		}
+	}
 
-  @include mbreakpoint(small-tablet) {
-    &:before {
-      content: "small-tablet";
-    }
-  }
+	@include mbreakpoint(medium) {
+		&:before {
+			content: "medium --> min-width: 600px";
+		}
+	}
 
-  @include mbreakpoint(tablet) {
-    &:before {
-      content: "tablet";
-    }
-  }
+	@include mbreakpoint(large) {
+		&:before {
+			content: "large --> min-width: 768px";
+		}
+	}
 
-  @include mbreakpoint(desktop, ie) {
-    &:before {
-      content: "desktop";
-    }
-  }
+	@include mbreakpoint(xlarge, ie) {
+		&:before {
+			content: "xlarge --> min-width: 980px";
+		}
+	}
 
-  @include mbreakpoint(widescreen) {
-    &:before {
-      content: "widescreen";
-    }
-  }
+	@include mbreakpoint(xxl) {
+		&:before {
+			content: "xxl --> min-width: 1200px";
+		}
+	}
 }

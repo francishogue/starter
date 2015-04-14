@@ -1,16 +1,18 @@
 // Desktop first
 @mixin breakpoint($media) {
-	@if $media == phone {
-		@media only screen and (max-width: $break-large-phone - 1) { @content; }
-	}@else if $media == large-phone {
-		@media only screen and (max-width: $break-small-tablet - 1) { @content; }
-	}@else if $media == small-tablet {
-		@media only screen and (max-width: $break-tablet - 1) { @content; }
-	}@else if $media == tablet {
-		@media only screen and (min-width: $break-tablet) and (max-width: $layout-size - 1) { @content; }
-	}@else if $media == widescreen {
+	@if $media == xsmall {
+		@media only screen and (max-width: $break-xsmall - 1) { @content; }
+	}@else if $media == small {
+		@media only screen and (max-width: $break-small - 1) { @content; }
+	}@else if $media == medium {
+		@media only screen and (max-width: $break-medium - 1) { @content; }
+	}@else if $media == large {
+		@media only screen and (max-width: $destkop-layout-size - 1) { @content; }
+	}@else if $media == large-only {
+		@media only screen and (min-width: $break-large) and (max-width: $destkop-layout-size - 1) { @content; }
+	}@else if $media == xxl {
 		@media only screen and (min-width: $break-wide) { @content; }
-	}@else if $media == tall-screen {
+	}@else if $media == tall {
 		@media only screen and (min-height: $break-tall-screen) { @content; }
 	}
 }
@@ -19,40 +21,41 @@
 // Desktop first breakpoint test
 #breakpoint {
 	&:before {
-		content: "desktop (default)";
+		display: block;
+		content: "xlarge (default --> 980px to 1199px)";
 	}
 
-	@include breakpoint(tall-screen) {
+	@include breakpoint(tall) {
 		color: green;
 	}
 
-	@include breakpoint(tablet) {
+	@include breakpoint(large) {
 		&:before {
-			content: "tablet";
+			content: "large --> max-width: 979px";
 		}
 	}
 
-	@include breakpoint(small-tablet) {
+	@include breakpoint(medium) {
 		&:before {
-			content: "small-tablet";
+			content: "medium --> max-width: 767px";
 		}
 	}
 
-	@include breakpoint(large-phone) {
+	@include breakpoint(small) {
 		&:before {
-			content: "large-phone";
+			content: "small --> max-width: 599px";
 		}
 	}
 
-	@include breakpoint(phone) {
+	@include breakpoint(xsmall) {
 		&:before {
-			content: "phone";
+			content: "xsmall --> max-width: 479px";
 		}
 	}
 
-	@include breakpoint(widescreen) {
+	@include breakpoint(xxl) {
 		&:before {
-			content: "widescreen";
+			content: "xxl --> min-width: 1200px";
 		}
 	}
 }
