@@ -34,6 +34,17 @@ HTML, Sass, JS starter kit running on Gulp.
 - gulp serve:dist     -> build and serve the output from the dist build
 ```
 
+## Media Queries list
+#### Desktop first
+```
+- xlarge (or default) which represents 1025px and up
+- xxl     --> min-width: 1200px
+- large   --> max-width: 1024px
+- medium  --> max-width: 767px
+- small   --> max-width: 599px
+- xsmall  --> max-width: 479px
+```
+
 ## ToDo's
 - ~~review TITOOLBOX.isMobile() (we could find a more bulletproof solution)~~
 	- Looks like [device.js](https://github.com/matthewhudson/device.js) is a lot better/solid, include it on a per project basis
