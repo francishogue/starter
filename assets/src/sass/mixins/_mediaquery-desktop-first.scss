@@ -1,5 +1,5 @@
 // Desktop first
-@mixin breakpoint($media) {
+@mixin mq($media) {
 	@if $media == xsmall {
 		@media only screen and (max-width: $break-xsmall - 1) { @content; }
 	}@else if $media == small {
@@ -25,35 +25,83 @@
 		content: "xlarge (default --> 1025px to 1199px)";
 	}
 
-	@include breakpoint(tall) {
+	@include mq(tall) {
 		color: green;
 	}
 
-	@include breakpoint(large) {
+	@include mq(large) {
 		&:before {
 			content: "large --> max-width: 1024px";
 		}
 	}
 
-	@include breakpoint(medium) {
+	@include mq(medium) {
 		&:before {
 			content: "medium --> max-width: 767px";
 		}
 	}
 
-	@include breakpoint(small) {
+	@include mq(small) {
 		&:before {
 			content: "small --> max-width: 599px";
 		}
 	}
 
-	@include breakpoint(xsmall) {
+	@include mq(xsmall) {
 		&:before {
 			content: "xsmall --> max-width: 479px";
 		}
 	}
 
-	@include breakpoint(xxl) {
+	@include mq(xxl) {
+		&:before {
+			content: "xxl --> min-width: 1200px";
+		}
+	}
+}
+
+@mixin breakpoint-label {
+	&:before {
+		display: block;
+		color: white;
+		font-size: 12px;
+		position: fixed;
+		padding: 0px 7px;
+		font-family: Courier, sans-serif;
+		bottom: 0; right: 0;
+		background-color: rgba(0,0,0,.3);
+		content: "xlarge (default --> 1025px to 1199px)";
+	}
+
+	@include mq(tall) {
+		// color: green;
+	}
+
+	@include mq(large) {
+		&:before {
+			content: "large --> max-width: 1024px";
+		}
+	}
+
+	@include mq(medium) {
+		&:before {
+			content: "medium --> max-width: 767px";
+		}
+	}
+
+	@include mq(small) {
+		&:before {
+			content: "small --> max-width: 599px";
+		}
+	}
+
+	@include mq(xsmall) {
+		&:before {
+			content: "xsmall --> max-width: 479px";
+		}
+	}
+
+	@include mq(xxl) {
 		&:before {
 			content: "xxl --> min-width: 1200px";
 		}
