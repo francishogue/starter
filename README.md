@@ -15,7 +15,7 @@ HTML, Sass, JS starter kit running on Gulp.
 	- copy the required files manually into your project from /bower_components
 
 ## Installation
-- sudo npm install
+- npm install
 - ~~bundle install~~
 
 ## Configuration
