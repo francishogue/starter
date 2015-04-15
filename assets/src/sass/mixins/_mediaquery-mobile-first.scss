@@ -7,7 +7,7 @@
 	}@else if $media == large {
 		@media only screen and (min-width: $break-medium) { @content; }
 	}@else if $media == xlarge {
-		@media only screen and (min-width: $destkop-layout-size) { @content; }
+		@media only screen and (min-width: $destkop-layout-size + 1) { @content; }
 	}@else if $media == xxl {
 		@media only screen and (min-width: $break-wide) { @content; }
 	}@else if $media == tall {
@@ -54,7 +54,7 @@
 
 	@include mbreakpoint(xlarge, ie) {
 		&:before {
-			content: "xlarge --> min-width: 980px";
+			content: "xlarge --> min-width: 1024px";
 		}
 	}
 
