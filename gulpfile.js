@@ -141,8 +141,8 @@ gulp.task('sass', function() {
 
 		.pipe(gutil.env.type === 'prod' ? minifyCSS() : gutil.noop())
 		
-		// Write final .map file
-		.pipe(sourcemaps.write())
+		// Write final .map file for Dev only
+		.pipe(gutil.env.type === 'prod' ? gutil.noop() : sourcemaps.write())
 
 		// Output the processed CSS
 		.pipe(gulp.dest(options.paths.destCss))
