@@ -69,9 +69,9 @@
 		}
 	}
 
-	@include mq('xl') {
+	@include mq('xxl') {
 		&:before {
-			content: "xl --> min-width: 1200px";
+			content: "xxl --> min-width: 1200px";
 		}
 	}
 }
@@ -117,9 +117,9 @@
 		}
 	}
 
-	@include mq('xl') {
+	@include mq('xxl') {
 		&:before {
-			content: "xl --> min-width: 1200px";
+			content: "xxl --> min-width: 1200px";
 		}
 	}
 }
