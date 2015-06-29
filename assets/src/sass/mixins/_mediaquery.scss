@@ -1,0 +1,125 @@
+/// Media query merger
+/// Create a single media condition out of a map of queries
+/// @param {Map} $queries - Map of media queries
+@mixin media($queries) {
+	@if length($queries) == 0 {
+		@content;
+	} @else {
+		$first-key: nth(map-keys($queries), 1);
+ 
+		@media ($first-key: map-get($queries, $first-key)) {
+			$queries: map-remove($queries, $first-key);
+ 
+			@include media($queries) {
+				@content;
+			}
+		}
+	}
+}
+
+@mixin mq($breakpoint) {
+	// Get the query map for $breakpoints map
+	$queries: map-get($breakpoints, $breakpoint);
+ 
+	// If there is no query called $breakpoint in map, throw an error
+	@if not $queries {
+		@error "No value could be retrieved from `#{$breakpoint}`. "
+		+ "Please make sure it is defined in `$breakpoints` map.";
+	}
+ 
+	// Include the media mixin with $queries
+	@include media($queries) {
+		@content;
+	}
+}
+
+// Breakpoints tests (only here for reference and ordering)
+// Desktop first breakpoint test
+#breakpoint {
+	&:before {
+		display: block;
+		content: "xlarge (default --> 1025px to 1199px)";
+	}
+
+	@include mq('tall') {
+		color: green;
+	}
+
+	@include mq('large') {
+		&:before {
+			content: "large --> max-width: 1024px";
+		}
+	}
+
+	@include mq('medium') {
+		&:before {
+			content: "medium --> max-width: 767px";
+		}
+	}
+
+	@include mq('small') {
+		&:before {
+			content: "small --> max-width: 599px";
+		}
+	}
+
+	@include mq('xsmall') {
+		&:before {
+			content: "xsmall --> max-width: 479px";
+		}
+	}
+
+	@include mq('xl') {
+		&:before {
+			content: "xl --> min-width: 1200px";
+		}
+	}
+}
+
+@mixin breakpoint-label {
+	&:before {
+		display: block;
+		color: white;
+		font-size: 12px;
+		position: fixed;
+		padding: 0px 7px;
+		font-family: Courier, sans-serif;
+		bottom: 0; right: 0;
+		background-color: rgba(0,0,0,.3);
+		content: "xlarge (default --> 1025px to 1199px)";
+	}
+
+	@include mq('tall') {
+		// color: green;
+	}
+
+	@include mq('large') {
+		&:before {
+			content: "large --> max-width: 1024px";
+		}
+	}
+
+	@include mq('medium') {
+		&:before {
+			content: "medium --> max-width: 767px";
+		}
+	}
+
+	@include mq('small') {
+		&:before {
+			content: "small --> max-width: 599px";
+		}
+	}
+
+	@include mq('xsmall') {
+		&:before {
+			content: "xsmall --> max-width: 479px";
+		}
+	}
+
+	@include mq('xl') {
+		&:before {
+			content: "xl --> min-width: 1200px";
+		}
+	}
+}
