@@ -25,6 +25,6 @@
     "gulp-uglify": "*",
     "gulp-util": "*",
     "jshint-stylish": "*",
-    "susy": "^2.2.2"
+    "susy": "*"
   }
 }

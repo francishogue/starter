@@ -92,7 +92,7 @@ options.combineMq = {
 	settings: {
 		beautify: false
 	}
-}
+};
 
 // gulp-uglify
 options.uglify = {
