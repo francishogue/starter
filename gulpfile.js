@@ -2,24 +2,23 @@
 
 'use strict';
 
-var gulp = 			require('gulp'),
-	gutil = 		require('gulp-util'),
-	del = 			require('del'),
-	sass = 			require('gulp-sass'),
-	autoprefixer = 	require('gulp-autoprefixer'),
-	combineMq = 	require('gulp-combine-mq'),
-	minifyCSS = 	require('gulp-minify-css'),
-	concat = 		require('gulp-concat'),
-	jshint = 		require('gulp-jshint'),
-	uglify = 		require('gulp-uglify'),
-	notify = 		require('gulp-notify'),
-	size = 			require('gulp-size'),
-	sourcemaps = 	require('gulp-sourcemaps'),
-	browserSync = 	require('browser-sync'),
-	imagemin = 		require('gulp-imagemin'),
-	changed = 		require('gulp-changed'),
-	reload = 		browserSync.reload;
-
+var gulp = 				require('gulp'),
+	gutil = 			require('gulp-util'),
+	del = 				require('del'),
+	sass = 				require('gulp-sass'),
+	autoprefixer = 		require('gulp-autoprefixer'),
+	minifyCSS = 		require('gulp-minify-css'),
+	concat = 			require('gulp-concat'),
+	jshint = 			require('gulp-jshint'),
+	uglify = 			require('gulp-uglify'),
+	notify = 			require('gulp-notify'),
+	size = 				require('gulp-size'),
+	combineMq = 		require('gulp-combine-mq'),
+	sourcemaps = 		require('gulp-sourcemaps'),
+	browserSync = 		require('browser-sync'),
+	imagemin = 			require('gulp-imagemin'),
+	changed = 			require('gulp-changed'),
+	reload = 			browserSync.reload;
 
 // Options, project specifics
 var options = {};
@@ -126,68 +125,66 @@ gulp.task('browser-sync', function() {
 gulp.task('sass', function() {
 	// List all .scss files that need to be processed
 	return gulp.src([
-			options.paths.sass + 'main.scss'
-		])
+		options.paths.sass + 'main.scss'
+	])
 
-		.pipe(sourcemaps.init())
+	.pipe(sourcemaps.init())
 
-		.pipe(sass(options.libsass))
+	.pipe(sass(options.libsass))
 
-		// Catch any SCSS errors and prevent them from crashing gulp
-		.on('error', function (error) {
-			gutil.log(gutil.colors.red(error.message));
-			this.emit('end');
-		})
+	// Catch any SCSS errors and prevent them from crashing gulp
+	.on('error', function (error) {
+		gutil.log(gutil.colors.red(error.message));
+		this.emit('end');
+	})
 
-		// Hotfix while gulp-sass sourcemaps gets fixed
-		// https://github.com/dlmanning/gulp-sass/issues/106#issuecomment-60977513
-		.pipe(sourcemaps.write())
-		.pipe(sourcemaps.init({loadMaps: true}))
+	// Hotfix while gulp-sass sourcemaps gets fixed
+	// https://github.com/dlmanning/gulp-sass/issues/106#issuecomment-60977513
+	.pipe(sourcemaps.write())
+	.pipe(sourcemaps.init({loadMaps: true}))
 
-		// Add vendor prefixes
-		.pipe(autoprefixer(options.autoprefixer.support))
+	// Add vendor prefixes
+	.pipe(autoprefixer(options.autoprefixer.support))
 
-		.pipe(gutil.env.type === 'prod' ? combineMq() : gutil.noop())
-		.pipe(gutil.env.type === 'prod' ? minifyCSS() : gutil.noop())
+	.pipe(gutil.env.type === 'prod' ? combineMq() : gutil.noop())
+	.pipe(gutil.env.type === 'prod' ? minifyCSS() : gutil.noop())
 
-		// Write final .map file
-		.pipe(sourcemaps.write())
+	// Write final .map file for Dev only
+	.pipe(gutil.env.type === 'prod' ? gutil.noop() : sourcemaps.write())
 
-		// Output the processed CSS
-		.pipe(gulp.dest(options.paths.destCss))
+	// Output the processed CSS
+	.pipe(gulp.dest(options.paths.destCss))
 
-		.pipe(notify('Sass compiled'))
-		.pipe(size({title: 'CSS'}))
-		.pipe(reload({stream:true}));
+	.pipe(notify('Sass compiled'))
+	.pipe(size({title: 'CSS'}))
+	.pipe(reload({stream:true}));
 });
 
 // JS
 gulp.task('scripts', function() {
 	return gulp.src([
-			options.paths.js + 'libs/*.js',
-			options.paths.js + 'helpers.js',
-			options.paths.js + 'app.js',
-			'!' + options.paths.js + 'libs/modernizr.js'
-		])
-		.pipe(gutil.env.type !== 'prod' ? sourcemaps.init() : gutil.noop())
-		.pipe(concat('app.min.js'))
-		.pipe(gutil.env.type === 'prod' ? uglify(options.uglify) : gutil.noop())
-		.pipe(gutil.env.type !== 'prod' ? sourcemaps.write() : gutil.noop())
-		.pipe(gulp.dest(options.paths.destJs))
-		.pipe(notify('JS compiled'))
-		.pipe(reload({stream: true, once: true})
-	);
+		options.paths.js + 'libs/*.js',
+		options.paths.js + 'helpers.js',
+		options.paths.js + 'app.js',
+		'!' + options.paths.js + 'libs/modernizr.js'
+	])
+	.pipe(gutil.env.type !== 'prod' ? sourcemaps.init() : gutil.noop())
+	.pipe(concat('app.min.js'))
+	.pipe(gutil.env.type === 'prod' ? uglify(options.uglify) : gutil.noop())
+	.pipe(gutil.env.type !== 'prod' ? sourcemaps.write() : gutil.noop())
+	.pipe(gulp.dest(options.paths.destJs))
+	.pipe(notify('JS compiled'))
+	.pipe(reload({stream: true, once: true}));
 });
 
 
 // Copy Modernizr
 gulp.task('modernizr', function () {
 	return gulp.src([
-			options.paths.js + 'libs/modernizr.js'
-		])
-		.pipe(uglify())
-		.pipe(gulp.dest(options.paths.destJs)
-	);
+		options.paths.js + 'libs/modernizr.js'
+	])
+	.pipe(uglify())
+	.pipe(gulp.dest(options.paths.destJs));
 });
 
 

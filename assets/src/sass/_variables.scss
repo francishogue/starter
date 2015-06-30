@@ -1,12 +1,15 @@
 /* =======================================================================
 Responsive
 ========================================================================== */
-$destkop-layout-size:     1024px; // Size at which the layouts were designed (for desktop first)
-$break-xsmall:       			480px;
-$break-small:      				600px;
-$break-medium:            768px;
-$break-wide:              1200px;
-$break-tall-screen:       780px;
+$breakpoints: (
+	'xsmall': 		(max-width: 479px),
+	'small': 			(max-width: 599px),
+	'medium': 		(max-width: 767px),
+	'large': 			(max-width: 1024px),
+	'largeOnly': 	(min-width: 768px) and (max-width: 1024px),
+	'xxl': 				(min-width: 1200px),
+	'tall': 			(min-height: 780px),
+);
 
 
 /* =======================================================================
