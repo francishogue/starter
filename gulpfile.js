@@ -7,6 +7,7 @@ var gulp = 			require('gulp'),
 	del = 			require('del'),
 	sass = 			require('gulp-sass'),
 	autoprefixer = 	require('gulp-autoprefixer'),
+	combineMq = 	require('gulp-combine-mq'),
 	minifyCSS = 	require('gulp-minify-css'),
 	concat = 		require('gulp-concat'),
 	jshint = 		require('gulp-jshint'),
@@ -23,7 +24,7 @@ var gulp = 			require('gulp'),
 // Options, project specifics
 var options = {};
 
-// browserSync options 
+// browserSync options
 
 // If you already have a server
 // Comment out the 'server' option (below)
@@ -41,10 +42,10 @@ options.browserSync = {
 	},
 
 	// proxy: config.browsersync.proxy,
-	
+
 	// If you want to specify your IP adress (on more complex network), uncomment the 'host' option and update it
 	// host: config.browsersync.host,
-	
+
 	// If you want to run as https, uncomment the 'https' option
 	// https: true
 };
@@ -78,7 +79,7 @@ options.libsass = {
 // gulp-autoprefixer
 options.autoprefixer = {
 	support: [
-		'last 2 version', 
+		'last 2 version',
 		'ie >= 8',
 		'safari >= 6',
 		'ios >= 6',
@@ -86,6 +87,13 @@ options.autoprefixer = {
 		'bb >= 7'
 	]
 };
+
+// gulp-combine-mq
+options.combineMq = {
+	settings: {
+		beautify: false
+	}
+}
 
 // gulp-uglify
 options.uglify = {
@@ -139,8 +147,9 @@ gulp.task('sass', function() {
 		// Add vendor prefixes
 		.pipe(autoprefixer(options.autoprefixer.support))
 
+		.pipe(gutil.env.type === 'prod' ? combineMq() : gutil.noop())
 		.pipe(gutil.env.type === 'prod' ? minifyCSS() : gutil.noop())
-		
+
 		// Write final .map file
 		.pipe(sourcemaps.write())
 
@@ -155,9 +164,9 @@ gulp.task('sass', function() {
 // JS
 gulp.task('scripts', function() {
 	return gulp.src([
-			options.paths.js + 'libs/*.js', 
-			options.paths.js + 'helpers.js', 
-			options.paths.js + 'app.js', 
+			options.paths.js + 'libs/*.js',
+			options.paths.js + 'helpers.js',
+			options.paths.js + 'app.js',
 			'!' + options.paths.js + 'libs/modernizr.js'
 		])
 		.pipe(gutil.env.type !== 'prod' ? sourcemaps.init() : gutil.noop())

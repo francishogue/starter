@@ -13,6 +13,7 @@
     "gulp": "*",
     "gulp-autoprefixer": "*",
     "gulp-changed": "*",
+    "gulp-combine-mq": "*",
     "gulp-concat": "*",
     "gulp-imagemin": "*",
     "gulp-jshint": "*",
