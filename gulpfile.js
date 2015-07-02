@@ -2,28 +2,28 @@
 
 'use strict';
 
-var gulp = 					require('gulp'),
-	gutil = 					require('gulp-util'),
-	del = 						require('del'),
-	sass = 						require('gulp-sass'),
+var gulp = 				require('gulp'),
+	gutil = 			require('gulp-util'),
+	del = 				require('del'),
+	sass = 				require('gulp-sass'),
 	autoprefixer = 		require('gulp-autoprefixer'),
-	minifyCSS = 			require('gulp-minify-css'),
-	concat = 					require('gulp-concat'),
-	jshint = 					require('gulp-jshint'),
-	uglify = 					require('gulp-uglify'),
-	notify = 					require('gulp-notify'),
-	size = 						require('gulp-size'),
-	sourcemaps = 			require('gulp-sourcemaps'),
+	minifyCSS = 		require('gulp-minify-css'),
+	concat = 			require('gulp-concat'),
+	jshint = 			require('gulp-jshint'),
+	uglify = 			require('gulp-uglify'),
+	notify = 			require('gulp-notify'),
+	size = 				require('gulp-size'),
+	combineMq = 		require('gulp-combine-mq'),
+	sourcemaps = 		require('gulp-sourcemaps'),
 	browserSync = 		require('browser-sync'),
-	imagemin = 				require('gulp-imagemin'),
-	changed = 				require('gulp-changed'),
-	reload = 					browserSync.reload;
-
+	imagemin = 			require('gulp-imagemin'),
+	changed = 			require('gulp-changed'),
+	reload = 			browserSync.reload;
 
 // Options, project specifics
 var options = {};
 
-// browserSync options 
+// browserSync options
 
 // If you already have a server
 // Comment out the 'server' option (below)
@@ -41,10 +41,10 @@ options.browserSync = {
 	},
 
 	// proxy: config.browsersync.proxy,
-	
+
 	// If you want to specify your IP adress (on more complex network), uncomment the 'host' option and update it
 	// host: config.browsersync.host,
-	
+
 	// If you want to run as https, uncomment the 'https' option
 	// https: true
 };
@@ -78,13 +78,20 @@ options.libsass = {
 // gulp-autoprefixer
 options.autoprefixer = {
 	support: [
-		'last 2 version', 
+		'last 2 version',
 		'ie >= 8',
 		'safari >= 6',
 		'ios >= 6',
 		'android >= 4',
 		'bb >= 7'
 	]
+};
+
+// gulp-combine-mq
+options.combineMq = {
+	settings: {
+		beautify: false
+	}
 };
 
 // gulp-uglify
@@ -139,8 +146,9 @@ gulp.task('sass', function() {
 	// Add vendor prefixes
 	.pipe(autoprefixer(options.autoprefixer.support))
 
+	.pipe(gutil.env.type === 'prod' ? combineMq() : gutil.noop())
 	.pipe(gutil.env.type === 'prod' ? minifyCSS() : gutil.noop())
-	
+
 	// Write final .map file for Dev only
 	.pipe(gutil.env.type === 'prod' ? gutil.noop() : sourcemaps.write())
 
@@ -155,9 +163,9 @@ gulp.task('sass', function() {
 // JS
 gulp.task('scripts', function() {
 	return gulp.src([
-		options.paths.js + 'libs/*.js', 
-		options.paths.js + 'helpers.js', 
-		options.paths.js + 'app.js', 
+		options.paths.js + 'libs/*.js',
+		options.paths.js + 'helpers.js',
+		options.paths.js + 'app.js',
 		'!' + options.paths.js + 'libs/modernizr.js'
 	])
 	.pipe(gutil.env.type !== 'prod' ? sourcemaps.init() : gutil.noop())

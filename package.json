@@ -13,6 +13,7 @@
     "gulp": "*",
     "gulp-autoprefixer": "*",
     "gulp-changed": "*",
+    "gulp-combine-mq": "*",
     "gulp-concat": "*",
     "gulp-imagemin": "*",
     "gulp-jshint": "*",
@@ -24,6 +25,6 @@
     "gulp-uglify": "*",
     "gulp-util": "*",
     "jshint-stylish": "*",
-    "susy": "^2.2.2"
+    "susy": "*"
   }
 }
