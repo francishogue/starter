@@ -4,7 +4,7 @@
 
 var gulp = 				require('gulp'),
 	gutil = 			require('gulp-util'),
-	del = 				require('del'),
+	rimraf = 			require('rimraf'),
 	sass = 				require('gulp-sass'),
 	autoprefixer = 		require('gulp-autoprefixer'),
 	minifyCSS = 		require('gulp-minify-css'),
@@ -111,7 +111,7 @@ options.imagemin = {
 
 // Delete the dist directory
 gulp.task('clean', function(cb) {
-	del([options.distPath], cb);
+	rimraf(options.distPath, cb);
 });
 
 
