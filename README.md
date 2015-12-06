@@ -1,14 +1,14 @@
 starter
 =======
 
-HTML, Sass, JS starter kit running on Gulp. 
+HTML, Sass, JS starter kit running on Gulp.
 
 ***using LibSass, with Susy***
 
 ## Requirements
- - Node (v0.10.36)
- - npm (2.12.0)
- - browser-sync (```npm install -g browser-sync```) (2.0.1)
+ - Node (v4.2.3)
+ - npm (2.14.7)
+ - browser-sync (```npm install -g browser-sync```) (2.10.0)
  - Gulp (```npm install -g gulp```) ([CLI] v3.9.0)
  - bower (not exactly required but very useful to quickly add librairies to your project)
 	- bower search plugin
@@ -46,4 +46,4 @@ HTML, Sass, JS starter kit running on Gulp.
 ## ToDo's
 - ~~review TITOOLBOX.isMobile() (we could find a more bulletproof solution)~~
 	- Looks like [device.js](https://github.com/matthewhudson/device.js) is a lot better/solid, include it on a per project basis
-- add SCSS lint 
+- add SCSS lint
