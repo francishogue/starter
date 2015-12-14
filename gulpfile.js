@@ -138,10 +138,7 @@ gulp.task('sass', function() {
 		this.emit('end');
 	})
 
-	// Hotfix while gulp-sass sourcemaps gets fixed
-	// https://github.com/dlmanning/gulp-sass/issues/106#issuecomment-60977513
-	.pipe(sourcemaps.write())
-	.pipe(sourcemaps.init({loadMaps: true}))
+	.pipe(sourcemaps.init())
 
 	// Add vendor prefixes
 	.pipe(autoprefixer(options.autoprefixer.support))
