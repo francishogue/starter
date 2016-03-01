@@ -6,13 +6,10 @@ HTML, Sass, JS starter kit running on Gulp and ES2015
 ***using LibSass, with Susy***
 
 ## Requirements
- - Node (v4.2.3)
- - npm (2.14.7)
- - browser-sync (```npm install -g browser-sync```) (2.10.0)
+ - Node (5.6.x)
+ - npm (2.5.x)
+ - browser-sync (```npm install -g browser-sync```) (2.0.1)
  - Gulp (```npm install -g gulp```) ([CLI] v3.9.0)
- - bower (not exactly required but very useful to quickly add librairies to your project)
-	- bower search plugin
-	- copy the required files manually into your project from /bower_components into /src//js/libs
 
 ## Installation
 - npm install
