@@ -2,56 +2,53 @@
 Responsive
 ========================================================================== */
 $breakpoints: (
-	'xsmall': 		(max-width: 479px),
-	'small': 			(max-width: 599px),
-	'medium': 		(max-width: 767px),
-	'large': 			(max-width: 1024px),
-	'largeOnly': 	(min-width: 768px) and (max-width: 1024px),
-	'xxl': 				(min-width: 1200px),
-	'tall': 			(min-height: 780px),
+        'xsmall': (max-width: 479px),
+        'small': (max-width: 599px),
+        'medium': (max-width: 767px),
+        'large': (max-width: 1024px),
+        'largeOnly': (min-width: 768px) and (max-width: 1024px),
+        'xxl': (min-width: 1200px),
+        'tall': (min-height: 780px),
 );
-
 
 /* =======================================================================
 Font-face
 ========================================================================== */
-
 
 /* =======================================================================
 Variables
 ========================================================================== */
 
 // Fonts stacks
-$font-stack:              Arial, Verdana, sans-serif;
-$font-stack-alt:          Georgia, serif;
-$font-size-base:          16px;
-$line-height-base:        1.4;
+$font-stack: Arial, Verdana, sans-serif;
+$font-stack-alt: Georgia, serif;
+$font-size-base: 16px;
+$line-height-base: 1.4;
 
 // Typography
-$color-text:              #333;
-$color-link:              #ff0000;
-$color-link-visited:      lighten($color-link, 20%);
-$color-link-hover:        darken($color-link, 20%);
-$color-link-active:       darken($color-link, 40%);
+$color-text: #333;
+$color-link: #ff0000;
+$color-link-visited: lighten($color-link, 20%);
+$color-link-hover: darken($color-link, 20%);
+$color-link-active: darken($color-link, 40%);
 
 // Highlight
-$color-selection:         #ff0000;
-$color-placeholder:       #ff0000;
-
+$color-selection: #ff0000;
+$color-placeholder: #ff0000;
 
 /* =======================================================================
 Grid
 ========================================================================== */
 $susy: (
-	columns: 12,  // The number of columns in your grid
-	gutters: (1/4), // The size of a gutter in relation to a single column
-	math: fluid,
-	output: float,
-	gutter-position: after,
-	container: 940px,
-	debug: (
-		image: show,
-		output: overlay,
-		toggle: top right,
-	)
+        columns: 12, // The number of columns in your grid
+        gutters: (1/4), // The size of a gutter in relation to a single column
+        math: fluid,
+        output: float,
+        gutter-position: after,
+        container: 940px,
+        debug: (
+                image: show,
+                output: overlay,
+                toggle: top right,
+        )
 );

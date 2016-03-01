@@ -1,7 +1,7 @@
 starter
 =======
 
-HTML, Sass, JS starter kit running on Gulp.
+HTML, Sass, JS starter kit running on Gulp and ES2015
 
 ***using LibSass, with Susy***
 
@@ -44,6 +44,3 @@ HTML, Sass, JS starter kit running on Gulp.
 ```
 
 ## ToDo's
-- ~~review TITOOLBOX.isMobile() (we could find a more bulletproof solution)~~
-	- Looks like [device.js](https://github.com/matthewhudson/device.js) is a lot better/solid, include it on a per project basis
-- add SCSS lint

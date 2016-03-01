@@ -3,69 +3,82 @@ button,
 input,
 select,
 textarea {
-	color: $color-text;
-	font-family: $font-stack;
+  color: $color-text;
+  font-family: $font-stack;
 }
 
 body {
-	@include breakpoint-label;
-	background: #fff;
-	font-size: $font-size-base;
-	line-height: $line-height-base;
+  @include breakpoint-label;
+  background: #fff;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
 }
 
 a {
-	color: $color-link;
-	text-decoration: none;
-	&:visited { color: $color-link-visited; }
-	&:hover { color: $color-link-hover; }
-	&:focus,
-	&:active { color: $color-link-active; }
+  color: $color-link;
+  text-decoration: none;
+  &:visited {
+    color: $color-link-visited;
+  }
+  &:hover {
+    color: $color-link-hover;
+  }
+  &:focus,
+  &:active {
+    color: $color-link-active;
+  }
 }
 
 // h1, h2, h3, h4, h5, h6 {}
 
-img { vertical-align: middle; max-width: 100%; }
+img {
+  vertical-align: middle;
+  max-width: 100%;
+}
 
 hr {
-	display: block;
-	height: 1px;
-	border: 0;
-	border-top: 1px solid #ccc;
-	margin: 1em 0;
-	padding: 0;
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
 }
 
 fieldset {
-	border: 0;
-	margin: 0; padding: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
 }
 
 textarea {
-	resize: vertical;
+  resize: vertical;
 }
 
 // Selection
 ::-moz-selection {
-	background: $color-selection;
-	text-shadow: none;
+  background: $color-selection;
+  text-shadow: none;
 }
 
 ::selection {
-	background: $color-selection;
-	text-shadow: none;
+  background: $color-selection;
+  text-shadow: none;
 }
 
 // Placeholder color
 ::-webkit-input-placeholder { /* WebKit browsers */
-	color: $color-placeholder;
+  color: $color-placeholder;
 }
+
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-	color: $color-placeholder;
+  color: $color-placeholder;
 }
+
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-	color: $color-placeholder;
+  color: $color-placeholder;
 }
+
 :-ms-input-placeholder { /* Internet Explorer 10+ */
-	color: $color-placeholder;
+  color: $color-placeholder;
 }
