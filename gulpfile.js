@@ -11,7 +11,7 @@ var gulp = require('gulp'),
     rimraf = require('rimraf'),
     sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
-    minifyCSS = require('gulp-minify-css'),
+    cleanCSS = require('gulp-clean-css'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
     size = require('gulp-size'),
@@ -165,7 +165,7 @@ gulp.task('sass', function () {
         // Add vendor prefixes
         .pipe(autoprefixer(options.autoprefixer.support))
 
-        .pipe(gutil.env.type === 'prod' ? minifyCSS() : gutil.noop())
+        .pipe(gutil.env.type === 'prod' ? cleanCSS() : gutil.noop())
 
         // Write final .map file for Dev only
         .pipe(gutil.env.type === 'prod' ? gutil.noop() : sourcemaps.write())
