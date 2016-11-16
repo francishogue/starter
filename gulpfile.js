@@ -45,7 +45,7 @@ var options = {};
 // Uncomment 'var config' line below
 
 // Custom browserSync config
-// var config = require('./gulp-config.json');
+var config = require('./gulp-config.json');
 
 options.browserSync = {
     notify: false,
