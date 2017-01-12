@@ -1,13 +1,23 @@
+/* ============================================================================
+   MIXINS -> OTHERS
+   ========================================================================= */
+
+/**
+ * All the other miscellaneous mixins use around the site
+ */
+
+
 // http://nicolasgallagher.com/micro-clearfix-hack/
 @mixin clearfix {
-  &:before,
-  &:after {
-    content: ' ';
-    display: table;
-  }
-  &:after {
-    clear: both;
-  }
+    &:before,
+    &:after {
+        content: ' ';
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
 }
 
 // Convert pixels to rem
@@ -16,22 +26,22 @@
 // It will just end up using the pixel size you initially inserted.
 // Credit: http://zerosixthree.se/8-sass-mixins-you-must-have-in-your-toolbox/
 @function calculate-rem($size) {
-  $rem-size: $size / 16px;
-  @return $rem-size * 1rem;
+    $rem-size: $size / 16px;
+    @return $rem-size * 1rem;
 }
 
 @mixin remsize($size) {
-  font-size: $size;
-  font-size: calculate-rem($size);
+    font-size: $size;
+    font-size: calculate-rem($size);
 }
 
 // Credit: https://github.com/thoughtbot/bourbon/blob/master/app/assets/stylesheets/addons/_hide-text.scss
 @mixin hide-text {
-  background-color: transparent;
-  border: 0;
-  color: transparent;
-  font: 0/0 a;
-  text-shadow: none;
+    background-color: transparent;
+    border: 0;
+    color: transparent;
+    font: 0/0 a;
+    text-shadow: none;
 }
 
 /* Usage examples
@@ -40,11 +50,11 @@
  * @include anime((opacity, padding, margin), 0.5s, ease-in, 0.25s); // you can set duration and timing function
  * @include anime(); // will animate all properties */
 @mixin anime($props: all, $duration: 0.2s, $timing: ease-out, $delay: 0s) {
-  transition: {
-    duration: $duration;
-    property: $props;
-    timing-function: $timing;
-    delay: $delay;
-  }
+    transition: {
+        duration: $duration;
+        property: $props;
+        timing-function: $timing;
+        delay: $delay;
+    }
 }
 

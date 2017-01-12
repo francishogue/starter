@@ -6,9 +6,9 @@ HTML, Sass, JS starter kit running on Gulp and ES2015
 ***using LibSass, with Susy***
 
 ## Requirements
- - Node (5.6.x)
- - npm (2.5.x)
- - browser-sync (```npm install -g browser-sync```) (2.0.1)
+ - Node (5.x.x)
+ - npm (4.x.x)
+ - browser-sync (```npm install -g browser-sync```) (2.2.x)
  - Gulp (```npm install -g gulp```) ([CLI] v3.9.0)
 
 ## Installation

@@ -8,28 +8,25 @@
 Project Name
 */
 
-// Normalize.css
-@import "normalize";
+// Normalize.css (from node_modules/)
+@import "import-now";
 
-// @import "../../bower_components/susy/sass/susy";
-@import "susy/susy";
+// Susy grid (from node_modules/)
+@import "susy";
 
 // Mixins, helpers & variables (@font-face fonts are in variables)
 @import "variables";
 @import "mixins";
 @import "helpers";
 
-// Animations
-@import "anim";
-
-// Base/defaults (html, body, typography, headings, lists, etc)
+// Base/defaults tags (html, body, typography, headings, lists, etc)
 @import "base";
 
-// Layout, grid, header, footer
+// Layout
 @import "layout";
 
-// Modules (could be also used for page specific styles)
-@import "modules";
+// Components
+@import "components";
 
 // Print
 @import "print";

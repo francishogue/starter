@@ -16,8 +16,8 @@
 
 <body data-controller="module">
 
-<div class="container">
-    <header class="banner" role="banner">
+<header class="banner" role="banner">
+    <div class="container">
         <nav class="primary-nav" role="navigation">
             <ul>
                 <li><a href="/">Home</a></li>
@@ -25,31 +25,35 @@
                 <li><a href="/">Page 2</a></li>
             </ul>
         </nav>
-    </header> <!-- END .banner -->
+    </div>
+</header> <!-- END .banner -->
 
-    <main role="main">
+<main role="main">
 
+    <div class="container">
         <h1>Starter</h1>
-        <div class="col col1">
-            <h2>Desktop first approach</h2>
-            <p>Current breakpoint <b id="breakpoint"></b></p>
+        
+        <div class="l-half">
+            <div class="l-half__col">
+                <h2>Desktop first approach</h2>
+                <p>Current breakpoint <b id="breakpoint"></b></p>
+            </div>
+            <div class="l-half__col">
+                <h2>Mobile first approach</h2>
+                <p>Current breakpoint <b id="breakpoint-mobile-first"></b></p>
+            </div>
         </div>
-        <div class="col col2">
-            <h2>Mobile first approach</h2>
-            <p>Current breakpoint <b id="breakpoint-mobile-first"></b></p>
-        </div>
+    
+    </div>
+</main> <!-- END main -->
 
-    </main> <!-- END main -->
+<aside class="sidebar" role="complementary">
+    A potential sidebar
+</aside> <!-- END .sidebar -->
 
-    <aside class="sidebar" role="complementary">
-        A potential sidebar
-    </aside> <!-- END .sidebar -->
-
-    <footer class="footer" role="contentinfo">
-        &copy; 2016
-    </footer> <!-- END .footer -->
-
-</div> <!-- END .container -->
+<footer class="footer" role="contentinfo">
+    &copy; 2016
+</footer> <!-- END .footer -->
 
 <script src="assets/dist/js/bundle.js"></script>
 

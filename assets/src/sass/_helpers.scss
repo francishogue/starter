@@ -1,48 +1,42 @@
-// Image Replacement
-// https://github.com/h5bp/html5-boilerplate/commit/aa0396eae757c9e03dda4e463fb0d4db5a5f82d7
-.ir {
-  border: 0;
-  font: 0/0 a;
-  text-shadow: none;
-  color: transparent;
-  background-color: transparent;
-}
+/* ============================================================================
+   HELPERS
+   ========================================================================= */
 
+/**
+ * Helper classes to quickly modify an element behavior or style
+ */
+
+// Clearfix
 .clearfix {
-  @include clearfix;
+    @include clearfix;
 }
 
 // Hide from both screenreaders and browsers: h5bp.com/u
 .hidden {
-  display: none !important;
-  visibility: hidden;
+    display: none !important; // sass-lint:disable-line no-important
+    visibility: hidden;
 }
 
 // Hide only visually, but have it available for screenreaders: h5bp.com/v
 .visuallyhidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
 }
 
 // Extends the .visuallyhidden class to allow the element to be focusable
 // when navigated to via the keyboard: h5bp.com/p
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
-  clip: auto;
-  height: auto;
-  margin: 0;
-  overflow: visible;
-  position: static;
-  width: auto;
-}
-
-// Hide visually and from screenreaders, but maintain layout
-.invisible {
-  visibility: hidden;
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
 }

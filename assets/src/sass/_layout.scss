@@ -1,39 +1,71 @@
-/* =======================================================================
-Shell
-========================================================================== */
+/* ============================================================================
+   LAYOUTS
+   ========================================================================= */
+
+/**
+ * Styles for the container (Susy)
+ */
+
+
 .container {
-  @include container;
+    @include container;
+    padding-left: $padding-container-small;
+    padding-right: $padding-container-small;
+
+    // For testing only (see where the grid ends in relation to the .container
+    border: 1px solid blue;
+
+    // TODO: setup tablet size layouts/grid
+    // @include mq(medium) {
+    //     @include container($susy-medium);
+    //     padding-left: $padding-container-medium;
+    //     padding-right: $padding-container-medium;
+    // }
+
+    @include mq(xlarge) {
+        @include container($susy-xlarge);
+        padding-left: $padding-container-xlarge;
+        padding-right: $padding-container-xlarge;
+    }
 }
 
-.col1 {
-  @include span(6);
+
+/**
+ * EXAMPLE of:
+ * Full width on mobile - 50/50 on desktop
+ */
+
+.l-half {
+    @include clearfix;
+    background: grey;
+    padding: 50px 0;
 }
 
-.col2 {
-  @include span(6 last);
+.l-half__col {
+    @include span(4);
+
+    background: green;
+
+    @include susy-breakpoint(map-get($breakpoints, xlarge), $susy-xlarge) {
+        @include span(6);
+    }
 }
 
-.col {
-}
+// TEMPORARY, used to test the grid settings
+.grid-test {
+    background: grey;
+    padding: 50px 0;
 
-main {
-  @include clearfix;
-}
+    .container > div {
+        @include span(4);
 
-/* =======================================================================
-Header
-========================================================================== */
-.banner {
-}
+        background: green;
+    }
 
-/* =======================================================================
-Footer
-========================================================================== */
-.footer {
-}
-
-/* =======================================================================
-Nav
-========================================================================== */
-.primary-nav {
+    // You need to use this Susy mediaquery mixin if you need to use any Susy methods (span, bleed, push, pre, etc)
+    @include susy-breakpoint(map-get($breakpoints, xlarge), $susy-xlarge) {
+        .container > div {
+            @include span(1);
+        }
+    }
 }

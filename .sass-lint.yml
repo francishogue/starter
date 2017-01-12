@@ -1,0 +1,55 @@
+files:
+  ignore: ['**/_print.scss']
+options:
+  formatter: stylish
+  merge-default-rules: false
+rules:
+  no-ids: 1
+  single-line-per-selector: 1
+  no-important: 1
+  url-quotes: true
+  indentation:
+    - 2
+    - size: 4
+  bem-depth:
+    - 0
+    - max-depth: 1
+  class-name-format:
+    - 2
+    - convention: hyphenatedbem
+  empty-line-between-blocks:
+    - 1
+    - ignore-single-line-rulesets: true
+  nesting-depth:
+    - 1
+    - max-depth: 3
+  extends-before-declarations: 1
+  extends-before-mixins: 1
+  variable-name-format:
+    - 1
+    - allow-leading-underscore: true
+      convention: hyphenatedlowercase
+  space-after-bang:
+    - 1
+    - include: false
+  space-after-colon:
+    - 1
+    - include: true
+  space-after-comma:
+    - 1
+    - include: true
+  space-before-bang:
+    - 1
+    - include: true
+  space-before-brace:
+    - 1
+    - include: true
+  space-before-colon: 1
+  space-between-parens:
+    - 1
+    - include: false
+  trailing-semicolon: 1
+  no-vendor-prefixes:
+    - 1
+    - additional-identifiers: []
+      excluded-identifiers: []

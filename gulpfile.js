@@ -10,8 +10,10 @@ var gulp = require('gulp'),
     gutil = require('gulp-util'),
     rimraf = require('rimraf'),
     sass = require('gulp-sass'),
-    autoprefixer = require('gulp-autoprefixer'),
-    cleanCSS = require('gulp-clean-css'),
+    sassLint = require('gulp-sass-lint'),
+    postcss = require('gulp-postcss'),
+    autoprefixer = require('autoprefixer'),
+    cssnano = require('cssnano'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
     size = require('gulp-size'),
@@ -22,15 +24,14 @@ var gulp = require('gulp'),
     changed = require('gulp-changed'),
     svgSprite = require('gulp-svg-sprite'),
     reload = browserSync.reload,
-    rev = require('gulp-rev'),
     chalk = require('chalk'),
     duration = require('gulp-duration'),
-    _ = require('lodash'),
     browserify = require('browserify'),
     babelify = require('babelify'),
     watchify = require('watchify'),
     source = require('vinyl-source-stream'),
-    buffer = require('vinyl-buffer');
+    buffer = require('vinyl-buffer'),
+    _ = require('lodash');
 
 
 // Options, project specifics
@@ -86,17 +87,10 @@ options.libsass = {
     sourceComments: true,
     precision: 10,
     outputStyle: 'expanded',
-    imagePath: 'assets/src/images'
-};
-
-// gulp-autoprefixer
-options.autoprefixer = {
-    support: [
-        'last 2 version',
-        'ie >= 10',
-        'safari >= 6',
-        'ios >= 7',
-        'android >= 4'
+    imagePath: 'assets/src/images',
+    includePaths: [
+        "./node_modules/susy/sass",
+        "./node_modules/normalize-scss/sass/normalize"
     ]
 };
 
@@ -157,15 +151,7 @@ gulp.task('sass', function () {
             this.emit('end');
         })
 
-        // Hotfix while gulp-sass sourcemaps gets fixed
-        // https://github.com/dlmanning/gulp-sass/issues/106#issuecomment-60977513
-        .pipe(sourcemaps.write())
-        .pipe(sourcemaps.init({loadMaps: true}))
-
-        // Add vendor prefixes
-        .pipe(autoprefixer(options.autoprefixer.support))
-
-        .pipe(gutil.env.type === 'prod' ? cleanCSS() : gutil.noop())
+         .pipe(postcss([ autoprefixer(options.autoprefixer), cssnano({safe: true}) ]))
 
         // Write final .map file for Dev only
         .pipe(gutil.env.type === 'prod' ? gutil.noop() : sourcemaps.write())
@@ -209,6 +195,17 @@ gulp.task('fonts', function () {
     return gulp.src(options.paths.fonts + '**/*.{ttf,woff,woff2,eot,svg}')
         .pipe(changed(options.paths.destFonts)) // Ignore unchanged files
         .pipe(gulp.dest(options.paths.destFonts));
+});
+
+
+// Sass lint task
+gulp.task('sasslint', function () {
+    return gulp.src(options.paths.sass + '**/*.s+(a|c)ss')
+        .pipe(sassLint({
+            configFile: '.sass-lint.yml'
+        }))
+        .pipe(sassLint.format())
+        .pipe(sassLint.failOnError())
 });
 
 
@@ -262,9 +259,6 @@ function mapError(err) {
 }
 
 
-// gulp serve           -> build for dev
-// gulp build           -> build for prod
-// gulp serve:dist      -> build and serve the output from the dist build
 
 gulp.task('serve', [
         'sass',
@@ -277,7 +271,7 @@ gulp.task('serve', [
     ], function () {
 
         // Watch Sass
-        gulp.watch(options.paths.sass + '**/*.scss', ['sass'])
+        gulp.watch(options.paths.sass + '**/*.scss', ['sass', 'sasslint'])
             .on('change', function (evt) {
                 console.log(
                     '[watcher] File ' + evt.path.replace(/.*(?=sass)/, '') + ' was ' + evt.type + ', compiling...'
@@ -291,7 +285,7 @@ gulp.task('serve', [
         var args = _.assign({}, watchify.args, browserify_config);
         var bundler = browserify('./assets/src/js/app.js', args) // Browserify
             .plugin(watchify, {ignoreWatch: ['**/node_modules/**', '**/bower_components/**']}) // Watchify to watch source file changes
-            .transform(babelify, {presets: ['es2015']}); // Babel tranforms
+            .transform(babelify); // Babel tranforms
         bundle(bundler); // Run the bundle the first time (required for Watchify to kick in)
         bundler.on('update', function () {
             bundle(bundler); // Re-run bundle on source updates
@@ -307,10 +301,10 @@ gulp.task('serve:dist', ['default'], function () {
 gulp.task('build', ['clean'], function () {
     gutil.env.type = 'prod';
     //gulp.start('sass', 'modernizr', 'images', 'svg', 'fonts');
-    gulp.start('sass', 'images', 'svg', 'fonts');
+    gulp.start('sass', 'sasslint', 'images', 'svg', 'fonts');
 
     var bundler = browserify('./assets/src/js/app.js', browserify_config) // Browserify
-        .transform(babelify, {presets: ['es2015']}); // Babel tranforms
+        .transform(babelify); // Babel tranforms
     bundle(bundler); // Run the bundle the first time (required for Watchify to kick in)
 
     return gulp.src(options.distPath + '**/*').pipe(size({title: 'build', gzip: false}));
