@@ -1,4 +1,4 @@
-/* jshint ignore:start */
+/* eslint-disable */
 
 // Avoid `console` errors in browsers that lack a console.
 (function () {
@@ -126,5 +126,3 @@ window.clearRequestInterval = function (handle) {
                         window.msCancelRequestAnimationFrame ? window.msCancelRequestAnimationFrame(handle.value) :
                             clearInterval(handle);
 };
-
-/* jshint ignore:end */

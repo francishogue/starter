@@ -1,11 +1,6 @@
 /* jshint node:true */
 'use strict';
 
-// gulp serve           -> build for dev
-// gulp build           -> build for prod
-// gulp serve:dist      -> build and serve the output from the dist build
-
-
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
     rimraf = require('rimraf'),
@@ -14,7 +9,7 @@ var gulp = require('gulp'),
     postcss = require('gulp-postcss'),
     autoprefixer = require('autoprefixer'),
     cssnano = require('cssnano'),
-    jshint = require('gulp-jshint'),
+    eslint = require('gulp-eslint'),
     uglify = require('gulp-uglify'),
     size = require('gulp-size'),
     sourcemaps = require('gulp-sourcemaps'),
@@ -36,6 +31,9 @@ var gulp = require('gulp'),
 
 // Options, project specifics
 var options = {};
+
+// var config = require('./gulp-config.js');
+// gutil.log(config);
 
 // browserSync options
 
@@ -71,7 +69,7 @@ options.srcPath = 'assets/src/';        // path to your assets source folder
 
 options.paths = {
     sass: options.srcPath + 'sass/',
-    js: options.srcPath + '_js/',
+    js: options.srcPath + 'js/',
     images: options.srcPath + 'images/',
     fonts: options.srcPath + 'fonts/',
     destCss: options.distPath + 'css/',
@@ -89,8 +87,8 @@ options.libsass = {
     outputStyle: 'expanded',
     imagePath: 'assets/src/images',
     includePaths: [
-        "./node_modules/susy/sass",
-        "./node_modules/normalize-scss/sass/normalize"
+        './node_modules/susy/sass',
+        './node_modules/normalize-scss/sass/normalize'
     ]
 };
 
@@ -118,6 +116,7 @@ options.svgprite = {
 };
 
 var browserify_config = {
+    entries: ['./assets/src/js/app.js'],
     debug: true
 };
 
@@ -209,37 +208,80 @@ gulp.task('sasslint', function () {
 });
 
 
-// JS hint task (WIP, disabled)
-gulp.task('jshint', function () {
-    return gulp.src([
-            options.paths.js + '*.js',
-            './gulpfile.js'
-        ])
-        .pipe(jshint('.jshintrc'))
-        .pipe(jshint.reporter('jshint-stylish'));
+// JS lint task
+gulp.task('jslint', function () {
+    return runJSeslint();
 });
 
 
-// Completes the final file outputs
-function bundle(bundler) {
-    var bundleTimer = duration('Javascript bundle time');
 
-    bundler
-        .bundle()
-        .on('error', mapError) // Map error reporting
-        .pipe(source('app.js')) // Set source name
-        .pipe(buffer()) // Convert to gulp pipeline
-        .pipe(sourcemaps.init({loadMaps: true})) // Extract the inline sourcemaps
-        .pipe(rename({
-            dirname: '',
-            basename: 'bundle'
+// Script task
+gulp.task('scripts', function(callback) {
+    createBundle();
+    return callback();
+});
+
+var createBundle = function(callback) {
+    var args = null;
+
+    if(gutil.env.type !== 'prod') {
+        args = _.assign({}, watchify.args, browserify_config);
+    } else {
+        args = _.assign({}, watchify.args, browserify_config, { debug: true });
+    }
+
+    var bundler = browserify(args);
+
+    bundler.transform(babelify);
+
+
+    var rebundle = function() {
+        var bundleTimer = duration('Javascript bundle time');
+
+        return bundler.bundle()
+            .on('error', mapError) // Map error reporting
+            .pipe(source('app.js')) // Set source name
+            .pipe(buffer()) // Convert to gulp pipeline
+            .pipe(sourcemaps.init({loadMaps: true})) // Extract the inline sourcemaps
+            .pipe(rename({
+                dirname: '',
+                basename: 'bundle'
+            }))
+            .pipe(gutil.env.type === 'prod' ? uglify(options.uglify) : gutil.noop())
+            .pipe(sourcemaps.write('./', {sourceRoot: './'})) // Set folder for sourcemaps to output to
+            .pipe(gulp.dest(options.paths.destJs)) // Set the output folder
+            .pipe(bundleTimer) // Output time timing of the file creation
+            .pipe(browserSync.stream({once: true}));
+    };
+
+    if(gutil.env.type !== 'prod') {
+        bundler = watchify(bundler);
+    }
+
+    bundler.on('update', function(id) {
+        runJSeslint(callback, id);
+        rebundle();
+    });
+
+    bundler.on('log', gutil.log);
+
+    return rebundle();
+};
+
+
+var runJSeslint = function(callback, src) {
+    return gulp.src([
+            options.paths.js + '**/*.js'
+        ])
+        .pipe(eslint({
+            configFile: './.eslintrc.yml'
         }))
-        .pipe(gutil.env.type === 'prod' ? uglify(options.uglify) : gutil.noop())
-        .pipe(sourcemaps.write('./', {sourceRoot: './'})) // Set folder for sourcemaps to output to
-        .pipe(gulp.dest(options.paths.destJs)) // Set the output folder
-        .pipe(bundleTimer) // Output time timing of the file creation
-        .pipe(browserSync.stream({once: true}));
-}
+        .pipe(eslint.format());
+        // .pipe(eslint.failAfterError());
+};
+
+
+
 
 // Error reporting function
 function mapError(err) {
@@ -262,8 +304,9 @@ function mapError(err) {
 
 gulp.task('serve', [
         'sass',
-        // 'jshint',
-        //'modernizr',
+        'sasslint',
+        'scripts',
+        'jslint',
         'images',
         'svg',
         'fonts',
@@ -281,15 +324,7 @@ gulp.task('serve', [
         // Watch images
         gulp.watch(options.paths.images + '**/*', ['images']);
 
-        // Watch JS
-        var args = _.assign({}, watchify.args, browserify_config);
-        var bundler = browserify('./assets/src/js/app.js', args) // Browserify
-            .plugin(watchify, {ignoreWatch: ['**/node_modules/**', '**/bower_components/**']}) // Watchify to watch source file changes
-            .transform(babelify); // Babel tranforms
-        bundle(bundler); // Run the bundle the first time (required for Watchify to kick in)
-        bundler.on('update', function () {
-            bundle(bundler); // Re-run bundle on source updates
-        });
+        // Watch JS is part of the scripts task using watchify
     }
 );
 
@@ -300,12 +335,7 @@ gulp.task('serve:dist', ['default'], function () {
 
 gulp.task('build', ['clean'], function () {
     gutil.env.type = 'prod';
-    //gulp.start('sass', 'modernizr', 'images', 'svg', 'fonts');
-    gulp.start('sass', 'sasslint', 'images', 'svg', 'fonts');
-
-    var bundler = browserify('./assets/src/js/app.js', browserify_config) // Browserify
-        .transform(babelify); // Babel tranforms
-    bundle(bundler); // Run the bundle the first time (required for Watchify to kick in)
+    gulp.start('sass', 'sasslint', 'scripts', 'jslint', 'images', 'svg', 'fonts');
 
     return gulp.src(options.distPath + '**/*').pipe(size({title: 'build', gzip: false}));
 });
