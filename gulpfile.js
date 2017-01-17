@@ -1,4 +1,3 @@
-/* jshint node:true */
 'use strict';
 
 var gulp = require('gulp'),
@@ -29,107 +28,33 @@ var gulp = require('gulp'),
     _ = require('lodash');
 
 
-// Options, project specifics
-var options = {};
+var config = require('./gulp-config.js');
 
-// var config = require('./gulp-config.js');
-// gutil.log(config);
-
-// browserSync options
-
-// If you already have a server
-// Comment out the 'server' option (below)
-// Uncomment the 'proxy' option and update its value in 'gulp-config.json'
-// You can easily create 'gulp-config.json' from 'gulp-config-sample.json'
-// Uncomment 'var config' line below
-
-// Custom browserSync config
-// var config = require('./gulp-config.json');
-
-options.browserSync = {
-    notify: false,
-    open: true,
-    server: {
-        baseDir: './'
+var paths = {
+    src: {
+        css:            config.paths.src.baseDir + config.paths.src.css,
+        js:             config.paths.src.baseDir + config.paths.src.js,
+        images:         config.paths.src.baseDir + config.paths.src.images,
+        fonts:          config.paths.src.baseDir + config.paths.src.fonts,
     },
-
-    //proxy: config.browsersync.proxy,
-
-    // If you want to specify your IP adress (on more complex network), uncomment the 'host' option and update it
-    //host: config.browsersync.host,
-
-    // If you want to run as https, uncomment the 'https' option
-    // https: true
-};
-
-
-// Paths settings
-options.distPath = 'assets/dist/';         // path to your assets distribution folder
-options.srcPath = 'assets/src/';        // path to your assets source folder
-
-options.paths = {
-    sass: options.srcPath + 'sass/',
-    js: options.srcPath + 'js/',
-    images: options.srcPath + 'images/',
-    fonts: options.srcPath + 'fonts/',
-    destCss: options.distPath + 'css/',
-    destJs: options.distPath + 'js/',
-    destImages: options.distPath + 'images/',
-    destFonts: options.distPath + 'fonts/'
-};
-
-// gulp-sass options
-options.libsass = {
-    errLogToConsole: false,
-    sourceMap: true,
-    sourceComments: true,
-    precision: 10,
-    outputStyle: 'expanded',
-    imagePath: 'assets/src/images',
-    includePaths: [
-        './node_modules/susy/sass',
-        './node_modules/normalize-scss/sass/normalize'
-    ]
-};
-
-// gulp-uglify
-options.uglify = {
-    compress: {
-        pure_funcs: ['console.log']
+    dist: {
+        css:            config.paths.dist.baseDir + config.paths.dist.css,
+        js:             config.paths.dist.baseDir + config.paths.dist.js,
+        images:         config.paths.dist.baseDir + config.paths.dist.images,
+        fonts:          config.paths.dist.baseDir + config.paths.dist.fonts,
     }
-};
-
-// gulp-imagemin
-options.imagemin = {
-    progressive: true,
-    interlaced: true,
-    optimizationLevel: 3
-};
-
-// Basic configuration example
-options.svgprite = {
-    mode: {
-        css: false,
-        inline: true,
-        symbol: true
-    }
-};
-
-var browserify_config = {
-    entries: ['./assets/src/js/app.js'],
-    debug: true
 };
 
 
 // Delete the dist directory
 gulp.task('clean', function (cb) {
-    rimraf(options.distPath, cb);
+    rimraf(config.paths.dist.baseDir, cb);
 });
 
 
 // browser-sync task for starting the server. (Use the built-in server or use your existing one by filling the proxy options)
 gulp.task('browser-sync', function () {
-    browserSync(options.browserSync);
+    browserSync(config.browserSync);
 });
 
 
@@ -137,12 +62,12 @@ gulp.task('browser-sync', function () {
 gulp.task('sass', function () {
     // List all .scss files that need to be processed
     return gulp.src([
-            options.paths.sass + 'main.scss'
+            paths.src.css + 'main.scss'
         ])
 
         .pipe(sourcemaps.init())
 
-        .pipe(sass(options.libsass))
+        .pipe(sass(config.libsass))
 
         // Catch any SCSS errors and prevent them from crashing gulp
         .on('error', function (error) {
@@ -150,13 +75,13 @@ gulp.task('sass', function () {
             this.emit('end');
         })
 
-         .pipe(postcss([ autoprefixer(options.autoprefixer), cssnano({safe: true}) ]))
+        .pipe(postcss([ autoprefixer(), cssnano(config.cssnano) ]))
 
         // Write final .map file for Dev only
         .pipe(gutil.env.type === 'prod' ? gutil.noop() : sourcemaps.write())
 
         // Output the processed CSS
-        .pipe(gulp.dest(options.paths.destCss))
+        .pipe(gulp.dest(paths.dist.css))
 
         .pipe(size({title: 'CSS'}))
         .pipe(reload({stream: true}));
@@ -164,45 +89,43 @@ gulp.task('sass', function () {
 
 
 // Copy Modernizr
-gulp.task('modernizr', function () {
-    return gulp.src([
-            options.paths.js + 'modernizr-custom.js'
-        ])
-        .pipe(gulp.dest(options.paths.destJs));
-});
+// gulp.task('modernizr', function () {
+//     return gulp.src([
+//             options.paths.js + 'modernizr-custom.js'
+//         ])
+//         .pipe(gulp.dest(options.paths.destJs));
+// });
 
 
 // SVG sprite
 gulp.task('svg', function () {
-    return gulp.src(options.paths.images + '**/*.svg')
-        .pipe(svgSprite(options.svgprite))
-        .pipe(gulp.dest(options.paths.destImages));
+    return gulp.src(paths.src.images + '**/*.svg')
+        .pipe(svgSprite(config.svgSprite))
+        .pipe(gulp.dest(paths.dist.images));
 });
 
 
 // Images
 gulp.task('images', function () {
-    return gulp.src(options.paths.images + '**/*')
-        .pipe(changed(options.paths.destImages)) // Ignore unchanged files
-        .pipe(imagemin(options.imagemin)) // Optimize
-        .pipe(gulp.dest(options.paths.destImages));
+    return gulp.src(paths.src.images + '**/*')
+        .pipe(changed(paths.dist.images)) // Ignore unchanged files
+        .pipe(imagemin(config.imagemin)) // Optimize
+        .pipe(gulp.dest(paths.dist.images));
 });
 
 
 // Fonts
 gulp.task('fonts', function () {
-    return gulp.src(options.paths.fonts + '**/*.{ttf,woff,woff2,eot,svg}')
-        .pipe(changed(options.paths.destFonts)) // Ignore unchanged files
-        .pipe(gulp.dest(options.paths.destFonts));
+    return gulp.src(paths.src.fonts + '**/*.{ttf,woff,woff2,eot,svg}')
+        .pipe(changed(paths.dist.fonts)) // Ignore unchanged files
+        .pipe(gulp.dest(paths.dist.fonts));
 });
 
 
 // Sass lint task
 gulp.task('sasslint', function () {
-    return gulp.src(options.paths.sass + '**/*.s+(a|c)ss')
-        .pipe(sassLint({
-            configFile: '.sass-lint.yml'
-        }))
+    return gulp.src(paths.src.css + '**/*.s+(a|c)ss')
+        .pipe(sassLint(config.sassLint))
         .pipe(sassLint.format())
         .pipe(sassLint.failOnError())
 });
@@ -212,7 +135,6 @@ gulp.task('sasslint', function () {
 gulp.task('jslint', function () {
     return runJSeslint();
 });
-
 
 
 // Script task
@@ -225,9 +147,9 @@ var createBundle = function(callback) {
     var args = null;
 
     if(gutil.env.type !== 'prod') {
-        args = _.assign({}, watchify.args, browserify_config);
+        args = _.assign({}, watchify.args, config.browserify);
     } else {
-        args = _.assign({}, watchify.args, browserify_config, { debug: true });
+        args = _.assign({}, watchify.args, config.browserify, { debug: true });
     }
 
     var bundler = browserify(args);
@@ -242,14 +164,14 @@ var createBundle = function(callback) {
             .on('error', mapError) // Map error reporting
             .pipe(source('app.js')) // Set source name
             .pipe(buffer()) // Convert to gulp pipeline
-            .pipe(sourcemaps.init({loadMaps: true})) // Extract the inline sourcemaps
+            .pipe(gutil.env.type !== 'prod' ? sourcemaps.init({loadMaps: true}) : gutil.noop()) // Extract the inline sourcemaps
             .pipe(rename({
                 dirname: '',
                 basename: 'bundle'
             }))
-            .pipe(gutil.env.type === 'prod' ? uglify(options.uglify) : gutil.noop())
-            .pipe(sourcemaps.write('./', {sourceRoot: './'})) // Set folder for sourcemaps to output to
-            .pipe(gulp.dest(options.paths.destJs)) // Set the output folder
+            .pipe(gutil.env.type === 'prod' ? uglify(config.uglify) : gutil.noop())
+            .pipe(gutil.env.type !== 'prod' ? sourcemaps.write('./', {sourceRoot: './'}) : gutil.noop()) // Set folder for sourcemaps to output to
+            .pipe(gulp.dest(paths.dist.js)) // Set the output folder
             .pipe(bundleTimer) // Output time timing of the file creation
             .pipe(browserSync.stream({once: true}));
     };
@@ -271,16 +193,12 @@ var createBundle = function(callback) {
 
 var runJSeslint = function(callback, src) {
     return gulp.src([
-            options.paths.js + '**/*.js'
+            paths.src.js + '**/*.js'
         ])
-        .pipe(eslint({
-            configFile: './.eslintrc.yml'
-        }))
+        .pipe(eslint(config.eslint))
         .pipe(eslint.format());
         // .pipe(eslint.failAfterError());
 };
-
-
 
 
 // Error reporting function
@@ -301,7 +219,6 @@ function mapError(err) {
 }
 
 
-
 gulp.task('serve', [
         'sass',
         'sasslint',
@@ -314,7 +231,7 @@ gulp.task('serve', [
     ], function () {
 
         // Watch Sass
-        gulp.watch(options.paths.sass + '**/*.scss', ['sass', 'sasslint'])
+        gulp.watch(paths.src.css + '**/*.scss', ['sass', 'sasslint'])
             .on('change', function (evt) {
                 console.log(
                     '[watcher] File ' + evt.path.replace(/.*(?=sass)/, '') + ' was ' + evt.type + ', compiling...'
@@ -322,22 +239,22 @@ gulp.task('serve', [
             });
 
         // Watch images
-        gulp.watch(options.paths.images + '**/*', ['images']);
+        gulp.watch(paths.src.images + '**/*', ['images', 'svg']);
 
-        // Watch JS is part of the scripts task using watchify
+        // Watch JS is part of the `scripts` task using watchify
     }
 );
 
 // Build and serve the output from the dist build
 gulp.task('serve:dist', ['default'], function () {
-    browserSync(options.browserSync);
+    browserSync(config.browserSync);
 });
 
 gulp.task('build', ['clean'], function () {
     gutil.env.type = 'prod';
     gulp.start('sass', 'sasslint', 'scripts', 'jslint', 'images', 'svg', 'fonts');
 
-    return gulp.src(options.distPath + '**/*').pipe(size({title: 'build', gzip: false}));
+    return gulp.src(config.paths.dist + '**/*').pipe(size({title: 'build', gzip: false}));
 });
 
 gulp.task('default', function () {
