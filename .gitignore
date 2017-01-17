@@ -6,3 +6,5 @@ assets/dist
 gulp-config.json
 
 npm-debug.log
+
+.idea/*

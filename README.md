@@ -1,49 +1,26 @@
 starter
 =======
 
-HTML, Sass, JS starter kit running on Gulp.
+HTML, Sass, JS starter kit running on Gulp and ES2015
 
 ***using LibSass, with Susy***
 
 ## Requirements
- - Node (v4.2.3)
- - npm (2.14.7)
- - browser-sync (```npm install -g browser-sync```) (2.10.0)
+ - Node (5.x.x)
+ - npm (4.x.x)
+ - browser-sync (```npm install -g browser-sync```) (2.2.x)
  - Gulp (```npm install -g gulp```) ([CLI] v3.9.0)
- - bower (not exactly required but very useful to quickly add librairies to your project)
-	- bower search plugin
-	- copy the required files manually into your project from /bower_components into /src//js/libs
 
 ## Installation
 - npm install
 
 ## Configuration
-- gulpfile.js
-	- BrowserSync
-		- If you already have a server, read the instructions inside the gulpfile
-- Sass
-	- set Susy settings (if required) in _variables.scss
-	- set other defaults in _variables.scss (font-stacks, link colors, etc)
 
 ## Usage
 ```Shell
-- gulp serve          -> build for dev
-- gulp build          -> build for prod
-- gulp serve:dist     -> build and serve the output from the dist build
-```
-
-## Media Queries list
-#### Desktop first
-```
-- xlarge (or default) which represents 1025px and up
-- xxl     --> min-width: 1200px
-- large   --> max-width: 1024px
-- medium  --> max-width: 767px
-- small   --> max-width: 599px
-- xsmall  --> max-width: 479px
+- npm run serve          -> serve for dev
+- npm run build          -> build for prod
+- npm run serve-prod     -> build and serve the output from the prod build and settings
 ```
 
 ## ToDo's
-- ~~review TITOOLBOX.isMobile() (we could find a more bulletproof solution)~~
-	- Looks like [device.js](https://github.com/matthewhudson/device.js) is a lot better/solid, include it on a per project basis
-- add SCSS lint

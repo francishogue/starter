@@ -1,260 +1,262 @@
-/* jshint node:true */
-
 'use strict';
 
-var gulp = 				require('gulp'),
-	gutil = 			require('gulp-util'),
-	rimraf = 			require('rimraf'),
-	sass = 				require('gulp-sass'),
-	autoprefixer = 		require('gulp-autoprefixer'),
-	minifyCSS = 		require('gulp-minify-css'),
-	concat = 			require('gulp-concat'),
-	jshint = 			require('gulp-jshint'),
-	uglify = 			require('gulp-uglify'),
-	notify = 			require('gulp-notify'),
-	size = 				require('gulp-size'),
-	combineMq = 		require('gulp-combine-mq'),
-	sourcemaps = 		require('gulp-sourcemaps'),
-	browserSync = 		require('browser-sync'),
-	imagemin = 			require('gulp-imagemin'),
-	changed = 			require('gulp-changed'),
-	reload = 			browserSync.reload;
-
-// Options, project specifics
-var options = {};
-
-// browserSync options
-
-// If you already have a server
-// Comment out the 'server' option (below)
-// Uncomment the 'proxy' option and update its value in 'gulp-config.json'
-// You can easily create 'gulp-config.json' from 'gulp-config-sample.json'
-// Uncomment 'var config' line below
-
-// Custom browserSync config
-// var config = require('./gulp-config.json');
-
-options.browserSync = {
-	notify: false,
-	server: {
-		baseDir: './'
-	},
-
-	// proxy: config.browsersync.proxy,
-
-	// If you want to specify your IP adress (on more complex network), uncomment the 'host' option and update it
-	// host: config.browsersync.host,
-
-	// If you want to run as https, uncomment the 'https' option
-	// https: true
-};
+var gulp = require('gulp'),
+    gutil = require('gulp-util'),
+    rimraf = require('rimraf'),
+    sass = require('gulp-sass'),
+    sassLint = require('gulp-sass-lint'),
+    postcss = require('gulp-postcss'),
+    autoprefixer = require('autoprefixer'),
+    cssnano = require('cssnano'),
+    eslint = require('gulp-eslint'),
+    uglify = require('gulp-uglify'),
+    size = require('gulp-size'),
+    sourcemaps = require('gulp-sourcemaps'),
+    browserSync = require('browser-sync'),
+    imagemin = require('gulp-imagemin'),
+    rename = require('gulp-rename'),
+    changed = require('gulp-changed'),
+    svgSprite = require('gulp-svg-sprite'),
+    reload = browserSync.reload,
+    chalk = require('chalk'),
+    duration = require('gulp-duration'),
+    browserify = require('browserify'),
+    babelify = require('babelify'),
+    watchify = require('watchify'),
+    source = require('vinyl-source-stream'),
+    buffer = require('vinyl-buffer'),
+    _ = require('lodash');
 
 
-// Paths settings
-options.distPath = 'assets/dist/'; 		// path to your assets distribution folder
-options.srcPath = 'assets/src/';		// path to your assets source folder
+var config = require('./gulp-config.js');
 
-options.paths = {
-	sass: 			options.srcPath + 'sass/',
-	js: 			options.srcPath + 'js/',
-	images: 		options.srcPath + 'images/',
-	fonts: 			options.srcPath + 'fonts/',
-	destCss: 		options.distPath + 'css/',
-	destJs: 		options.distPath + 'js/',
-	destImages: 	options.distPath + 'images/',
-	destFonts: 		options.distPath + 'fonts/'
-};
-
-// gulp-sass options
-options.libsass = {
-	errLogToConsole: false,
-	sourceMap: true,
-	sourceComments: true,
-	precision: 10,
-	outputStyle: 'expanded',
-	imagePath: 'assets/src/images',
-};
-
-// gulp-autoprefixer
-options.autoprefixer = {
-	support: [
-		'last 2 version',
-		'ie >= 8',
-		'safari >= 6',
-		'ios >= 6',
-		'android >= 4',
-		'bb >= 7'
-	]
-};
-
-// gulp-combine-mq
-options.combineMq = {
-	settings: {
-		beautify: false
-	}
-};
-
-// gulp-uglify
-options.uglify = {
-	compress: {
-		pure_funcs: ['console.log']
-	}
-};
-
-// gulp-imagemin
-options.imagemin = {
-	progressive: true,
-	interlaced: true,
-	optimizationLevel: 3
+var paths = {
+    src: {
+        css:            config.paths.src.baseDir + config.paths.src.css,
+        js:             config.paths.src.baseDir + config.paths.src.js,
+        images:         config.paths.src.baseDir + config.paths.src.images,
+        fonts:          config.paths.src.baseDir + config.paths.src.fonts,
+    },
+    dist: {
+        css:            config.paths.dist.baseDir + config.paths.dist.css,
+        js:             config.paths.dist.baseDir + config.paths.dist.js,
+        images:         config.paths.dist.baseDir + config.paths.dist.images,
+        fonts:          config.paths.dist.baseDir + config.paths.dist.fonts,
+    }
 };
 
 
 // Delete the dist directory
-gulp.task('clean', function(cb) {
-	rimraf(options.distPath, cb);
+gulp.task('clean', function (cb) {
+    rimraf(config.paths.dist.baseDir, cb);
 });
 
 
 // browser-sync task for starting the server. (Use the built-in server or use your existing one by filling the proxy options)
-gulp.task('browser-sync', function() {
-	browserSync(options.browserSync);
+gulp.task('browser-sync', function () {
+    browserSync(config.browserSync);
 });
 
 
 // Node Sass
-gulp.task('sass', function() {
-	// List all .scss files that need to be processed
-	return gulp.src([
-		options.paths.sass + 'main.scss'
-	])
+gulp.task('sass', function () {
+    // List all .scss files that need to be processed
+    return gulp.src([
+            paths.src.css + 'main.scss'
+        ])
 
-	.pipe(sourcemaps.init())
+        .pipe(sourcemaps.init())
 
-	.pipe(sass(options.libsass))
+        .pipe(sass(config.libsass))
 
-	// Catch any SCSS errors and prevent them from crashing gulp
-	.on('error', function (error) {
-		gutil.log(gutil.colors.red(error.message));
-		this.emit('end');
-	})
+        // Catch any SCSS errors and prevent them from crashing gulp
+        .on('error', function (error) {
+            gutil.log(gutil.colors.red(error.message));
+            this.emit('end');
+        })
 
-	.pipe(sourcemaps.init())
+        .pipe(postcss([ autoprefixer(), cssnano(config.cssnano) ]))
 
-	// Add vendor prefixes
-	.pipe(autoprefixer(options.autoprefixer.support))
+        // Write final .map file for Dev only
+        .pipe(gutil.env.type === 'prod' ? gutil.noop() : sourcemaps.write())
 
-	.pipe(gutil.env.type === 'prod' ? combineMq() : gutil.noop())
-	.pipe(gutil.env.type === 'prod' ? minifyCSS() : gutil.noop())
+        // Output the processed CSS
+        .pipe(gulp.dest(paths.dist.css))
 
-	// Write final .map file for Dev only
-	.pipe(gutil.env.type === 'prod' ? gutil.noop() : sourcemaps.write())
-
-	// Output the processed CSS
-	.pipe(gulp.dest(options.paths.destCss))
-
-	.pipe(notify('Sass compiled'))
-	.pipe(size({title: 'CSS'}))
-	.pipe(reload({stream:true}));
-});
-
-// JS
-gulp.task('scripts', function() {
-	return gulp.src([
-		options.paths.js + 'libs/*.js',
-		options.paths.js + 'helpers.js',
-		options.paths.js + 'app.js',
-		'!' + options.paths.js + 'libs/modernizr.js'
-	])
-	.pipe(gutil.env.type !== 'prod' ? sourcemaps.init() : gutil.noop())
-	.pipe(concat('app.min.js'))
-	.pipe(gutil.env.type === 'prod' ? uglify(options.uglify) : gutil.noop())
-	.pipe(gutil.env.type !== 'prod' ? sourcemaps.write() : gutil.noop())
-	.pipe(gulp.dest(options.paths.destJs))
-	.pipe(notify('JS compiled'))
-	.pipe(reload({stream: true, once: true}));
+        .pipe(size({title: 'CSS'}))
+        .pipe(reload({stream: true}));
 });
 
 
 // Copy Modernizr
-gulp.task('modernizr', function () {
-	return gulp.src([
-		options.paths.js + 'libs/modernizr.js'
-	])
-	.pipe(uglify())
-	.pipe(gulp.dest(options.paths.destJs));
+// gulp.task('modernizr', function () {
+//     return gulp.src([
+//             options.paths.js + 'modernizr-custom.js'
+//         ])
+//         .pipe(gulp.dest(options.paths.destJs));
+// });
+
+
+// SVG sprite
+gulp.task('svg', function () {
+    return gulp.src(paths.src.images + '**/*.svg')
+        .pipe(svgSprite(config.svgSprite))
+        .pipe(gulp.dest(paths.dist.images));
 });
 
 
 // Images
-gulp.task('images', function() {
-	return gulp.src(options.paths.images + '**/*')
-		.pipe(changed(options.paths.destImages)) // Ignore unchanged files
-		.pipe(imagemin(options.imagemin)) // Optimize
-		.pipe(gulp.dest(options.paths.destImages));
+gulp.task('images', function () {
+    return gulp.src(paths.src.images + '**/*')
+        .pipe(changed(paths.dist.images)) // Ignore unchanged files
+        .pipe(imagemin(config.imagemin)) // Optimize
+        .pipe(gulp.dest(paths.dist.images));
 });
 
 
 // Fonts
-gulp.task('fonts', function() {
-	return gulp.src(options.paths.fonts + '**/*.{ttf,woff,woff2,eot,svg}')
-		.pipe(changed(options.paths.destFonts)) // Ignore unchanged files
-		.pipe(gulp.dest(options.paths.destFonts));
+gulp.task('fonts', function () {
+    return gulp.src(paths.src.fonts + '**/*.{ttf,woff,woff2,eot,svg}')
+        .pipe(changed(paths.dist.fonts)) // Ignore unchanged files
+        .pipe(gulp.dest(paths.dist.fonts));
 });
 
 
-// JS hint task (WIP)
-gulp.task('jshint', function() {
-	return gulp.src([
-		options.paths.js + '*.js',
-		'./gulpfile.js'
-	])
-	.pipe(jshint('.jshintrc'))
-	.pipe(jshint.reporter('jshint-stylish'));
+// Sass lint task
+gulp.task('sasslint', function () {
+    return gulp.src(paths.src.css + '**/*.s+(a|c)ss')
+        .pipe(sassLint(config.sassLint))
+        .pipe(sassLint.format())
+        .pipe(sassLint.failOnError())
 });
 
 
-// gulp serve           -> build for dev
-// gulp build           -> build for prod
-// gulp serve:dist      -> build and serve the output from the dist build
+// JS lint task
+gulp.task('jslint', function () {
+    return runJSeslint();
+});
+
+
+// Script task
+gulp.task('scripts', function(callback) {
+    createBundle();
+    return callback();
+});
+
+var createBundle = function(callback) {
+    var args = null;
+
+    if(gutil.env.type !== 'prod') {
+        args = _.assign({}, watchify.args, config.browserify);
+    } else {
+        args = _.assign({}, watchify.args, config.browserify, { debug: true });
+    }
+
+    var bundler = browserify(args);
+
+    bundler.transform(babelify);
+
+
+    var rebundle = function() {
+        var bundleTimer = duration('Javascript bundle time');
+
+        return bundler.bundle()
+            .on('error', mapError) // Map error reporting
+            .pipe(source('app.js')) // Set source name
+            .pipe(buffer()) // Convert to gulp pipeline
+            .pipe(gutil.env.type !== 'prod' ? sourcemaps.init({loadMaps: true}) : gutil.noop()) // Extract the inline sourcemaps
+            .pipe(rename({
+                dirname: '',
+                basename: 'bundle'
+            }))
+            .pipe(gutil.env.type === 'prod' ? uglify(config.uglify) : gutil.noop())
+            .pipe(gutil.env.type !== 'prod' ? sourcemaps.write('./', {sourceRoot: './'}) : gutil.noop()) // Set folder for sourcemaps to output to
+            .pipe(gulp.dest(paths.dist.js)) // Set the output folder
+            .pipe(bundleTimer) // Output time timing of the file creation
+            .pipe(browserSync.stream({once: true}));
+    };
+
+    if(gutil.env.type !== 'prod') {
+        bundler = watchify(bundler);
+    }
+
+    bundler.on('update', function(id) {
+        runJSeslint(callback, id);
+        rebundle();
+    });
+
+    bundler.on('log', gutil.log);
+
+    return rebundle();
+};
+
+
+var runJSeslint = function(callback, src) {
+    return gulp.src([
+            paths.src.js + '**/*.js'
+        ])
+        .pipe(eslint(config.eslint))
+        .pipe(eslint.format());
+        // .pipe(eslint.failAfterError());
+};
+
+
+// Error reporting function
+function mapError(err) {
+    if (err.fileName) {
+        // Regular error
+        gutil.log(chalk.red(err.name)
+            + ': ' + chalk.yellow(err.fileName.replace(__dirname + '/src/js/', ''))
+            + ': ' + 'Line ' + chalk.magenta(err.lineNumber)
+            + ' & ' + 'Column ' + chalk.magenta(err.columnNumber || err.column)
+            + ': ' + chalk.blue(err.description));
+    } else {
+        // Browserify error..
+        gutil.log(chalk.red(err.name)
+            + ': '
+            + chalk.yellow(err.message));
+    }
+}
+
 
 gulp.task('serve', [
-	'sass',
-	'jshint',
-	'scripts',
-	'modernizr',
-	'images',
-	'fonts',
-	'browser-sync'
-	], function() {
+        'sass',
+        'sasslint',
+        'scripts',
+        'jslint',
+        'images',
+        'svg',
+        'fonts',
+        'browser-sync'
+    ], function () {
 
-		// Watch Sass
-		gulp.watch(options.paths.sass + '**/*.scss', ['sass'])
-		.on('change', function(evt) {
-			// notify('[watcher] File ' + evt.path.replace(/.*(?=sass)/,'') + ' was ' + evt.type + ', compiling...');
-		console.log(
-			'[watcher] File ' + evt.path.replace(/.*(?=sass)/,'') + ' was ' + evt.type + ', compiling...'
-		);
-	});
+        // Watch Sass
+        gulp.watch(paths.src.css + '**/*.scss', ['sass', 'sasslint'])
+            .on('change', function (evt) {
+                console.log(
+                    '[watcher] File ' + evt.path.replace(/.*(?=sass)/, '') + ' was ' + evt.type + ', compiling...'
+                );
+            });
 
-	// Watch JS
-	gulp.watch(options.paths.js + '**/*.js', ['jshint', 'scripts']);
+        // Watch images
+        gulp.watch(paths.src.images + '**/*', ['images', 'svg']);
 
-	// Watch images
-	gulp.watch(options.paths.images + '**/*', ['images']);
-
-});
+        // Watch JS is part of the `scripts` task using watchify
+    }
+);
 
 // Build and serve the output from the dist build
 gulp.task('serve:dist', ['default'], function () {
-	browserSync(options.browserSync);
+    browserSync(config.browserSync);
 });
 
 gulp.task('build', ['clean'], function () {
-	gutil.env.type = 'prod';
-	gulp.start('sass', 'scripts', 'modernizr', 'images', 'fonts');
-	return gulp.src(options.distPath + '**/*').pipe(size({title: 'build', gzip: false}));
+    gutil.env.type = 'prod';
+    gulp.start('sass', 'sasslint', 'scripts', 'jslint', 'images', 'svg', 'fonts');
+
+    return gulp.src(config.paths.dist + '**/*').pipe(size({title: 'build', gzip: false}));
 });
 
 gulp.task('default', function () {
-	gulp.start('build');
+    gulp.start('build');
 });

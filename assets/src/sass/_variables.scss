@@ -1,57 +1,106 @@
-/* =======================================================================
-Responsive
-========================================================================== */
+/* ============================================================================
+   VARIABLES
+   ========================================================================= */
+
+/**
+ * A complete list of variables to drive the different components
+ * or layout items. Includes breakpoints, sizes, colors, Susy's layout, etc.
+ */
+
+
+/* Breakpoints
+   ========================================================================= */
+
+// xsmall: 0
+// small: 480px
+// medium: 600px
+// large: 840px
+// xlarge: 1024px
+// xxlarge: 1200px
+
 $breakpoints: (
-	'xsmall': 		(max-width: 479px),
-	'small': 			(max-width: 599px),
-	'medium': 		(max-width: 767px),
-	'large': 			(max-width: 1024px),
-	'largeOnly': 	(min-width: 768px) and (max-width: 1024px),
-	'xxl': 				(min-width: 1200px),
-	'tall': 			(min-height: 780px),
+    xsmall: (min-width: 0),
+    small: (min-width: 30em),
+    medium: (min-width: 37.5em),
+    large: (min-width: 52.5em),
+    xlarge: (min-width: 62.75em),
+    xxlarge: (min-width: 75em)
 );
 
 
-/* =======================================================================
-Font-face
-========================================================================== */
 
 
-/* =======================================================================
-Variables
-========================================================================== */
+/* Colors
+   ========================================================================= */
+
+
+
+
+/* Typography
+   ========================================================================= */
 
 // Fonts stacks
-$font-stack:              Arial, Verdana, sans-serif;
-$font-stack-alt:          Georgia, serif;
-$font-size-base:          16px;
-$line-height-base:        1.4;
+$font-stack: Arial, Verdana, sans-serif;
+$font-stack-alt: Georgia, serif;
+$font-size-base: 16px;
+$line-height-base: 1.4;
 
-// Typography
-$color-text:              #333;
-$color-link:              #ff0000;
-$color-link-visited:      lighten($color-link, 20%);
-$color-link-hover:        darken($color-link, 20%);
-$color-link-active:       darken($color-link, 40%);
-
-// Highlight
-$color-selection:         #ff0000;
-$color-placeholder:       #ff0000;
+// Default text and link color
+$color-text: #333;
+$color-link: #ff0000;
+$color-link-visited: lighten($color-link, 20%);
+$color-link-hover: darken($color-link, 20%);
+$color-link-active: darken($color-link, 40%);
 
 
-/* =======================================================================
-Grid
-========================================================================== */
+
+
+/* Other
+   ========================================================================= */
+
+$color-selection: #ff0000;
+$color-placeholder: #ff0000;
+
+
+
+
+/* Layout and Susy's grid
+   ========================================================================= */
+
+$padding-container-small: 20px;
+
+// TODO: add the tablet size custom grid settings
+$padding-container-medium: 20px;
+
+// TODO: confirm with the designer if this number makes sense
+$padding-container-xlarge: 30px;
+
+$susy-medium: 8 (16px/56px) fluid split ltr;
+$susy-xlarge: 960px 12 (20px/60px) fluid split ltr;
+
 $susy: (
-	columns: 12,  // The number of columns in your grid
-	gutters: (1/4), // The size of a gutter in relation to a single column
-	math: fluid,
-	output: float,
-	gutter-position: after,
-	container: 940px,
-	debug: (
-		image: show,
-		output: overlay,
-		toggle: top right,
-	)
+    flow: ltr, // ltr | rtl
+    output: float, // float | isolate
+    math: fluid, // fluid | static (requires column-width)
+    column-width: false, // false | value
+    container: auto, // length or % | auto
+    container-position: center, // left | center | right | <length> [*2] (grid padding)
+    last-flow: to,
+    columns: 4,
+    gutters: 0,
+    gutter-position: after, // before | after | split | inside | inside-static (requires column-width)
+    global-box-sizing: border-box, // content-box | border-box (affects inside/inside-static)
+    debug: (
+        image: show,
+        color: rgba(#66f, .2),
+        output: background, // background | overlay
+        toggle: top right,
+    ),
+    use-custom: (
+        background-image: false, // look for background-image mixin
+        background-options: false, // look for background-size, -origin and -clip and other compass/bourbon mixins
+        box-sizing: false, // look for custom bix sizing mixin
+        clearfix: false, // true = look for internal clearfix before using micro clearfix
+        rem: false, // look for rem mixin
+    )
 );
