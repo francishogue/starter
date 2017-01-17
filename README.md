@@ -1,9 +1,7 @@
 starter
 =======
 
-HTML, Sass, JS starter kit running on Gulp and ES2015
-
-***using LibSass, with Susy***
+HTML, Sass, JS starter kit running on Gulp, LibSass and browserify.
 
 ## Requirements
  - Node (5.x.x)
