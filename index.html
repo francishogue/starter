@@ -1,62 +1,119 @@
 <!DOCTYPE html>
 <html class="en" lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Starter</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Starter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Edit address bar colour to match site theme -->
-    <meta name="theme-color" content="#999999">
+  <!-- Edit address bar colour to match site theme -->
+  <meta name="theme-color" content="#999999">
 
-    <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
-    <link rel="stylesheet" href="assets/dist/css/main.css">
+  <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
+  <link rel="stylesheet" href="assets/dist/css/main.css">
 </head>
 
-<body data-controller="module">
+<body>
 
-<header class="banner" role="banner">
+  <header class="banner" role="banner">
     <div class="container">
-        <nav class="primary-nav" role="navigation">
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/">Page 1</a></li>
-                <li><a href="/">Page 2</a></li>
-            </ul>
-        </nav>
+      <nav class="test-nav" role="navigation">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="http://google.com">Page 1</a></li>
+          <li><a href="http://google.com/test">Page 2</a></li>
+        </ul>
+      </nav>
     </div>
-</header> <!-- END .banner -->
+  </header> <!-- END .banner -->
 
-<main role="main">
+  <main role="main">
 
-    <div class="container">
-        <h1>Starter</h1>
-        
-        <div class="l-half">
+    <div class="test-sep">
+      <div class="container">
+        <header class="test-hero">
+          <h1>Starter</h1>
+          <p>Aliquam dapibus sed arcu in vestibulum.</p>
+        </header>
+      </div>
+    </div>
+
+    <div class="test-sep">
+      <div class="container">
+        <p>Sed quis rutrum quam, ut faucibus felis. Donec hendrerit ex at iaculis dictum. Morbi imperdiet vulputate nisi, et consectetur purus consequat at. Nunc dictum vehicula lobortis. Aliquam dapibus sed arcu in vestibulum. Aliquam non elementum elit. Mauris vitae leo lectus.</p>
+      </div>
+    </div>
+
+    <div class="test-sep">
+      <div class="l-half">
+        <div class="container">
+          <h2>1/2 column (<code>.l-half</code>)</h2>
+          <div>
             <div class="l-half__col">
-                <h2>Desktop first approach</h2>
-                <p>Current breakpoint <b id="breakpoint"></b></p>
+              <h2>Half column</h2>
+              <p>Etiam fermentum, nisi eget mattis pulvinar, metus ligula ullamcorper elit, blandit ullamcorper ligula ligula a dui. Pellentesque sollicitudin quam sit amet diam viverra luctus.</p>
             </div>
             <div class="l-half__col">
-                <h2>Mobile first approach</h2>
-                <p>Current breakpoint <b id="breakpoint-mobile-first"></b></p>
+              <h2>Half column</h2>
+              <p>Sed quis rutrum quam, ut faucibus felis. Donec hendrerit ex at iaculis dictum. Morbi imperdiet vulputate nisi, et consectetur purus consequat at. Nunc dictum vehicula lobortis. Aliquam dapibus sed arcu in vestibulum. Aliquam non elementum elit. Mauris vitae leo lectus.</p>
             </div>
+          </div>
         </div>
-    
+      </div>
     </div>
-</main> <!-- END main -->
 
-<aside class="sidebar" role="complementary">
+    <div class="test-sep">
+      <div class="l-third">
+        <div class="container">
+          <h2>1/3 column (<code>.l-third</code>)</h2>
+          <div>
+            <div class="l-third__col">
+              <h3>1/3 column</h3>
+              <p>Sed quis rutrum quam, ut faucibus felis.</p>
+            </div>
+            <div class="l-third__col">
+              <h3>1/3 column</h3>
+              <p>Sed quis rutrum quam, ut faucibus felis. Donec hendrerit ex at iaculis dictum. Morbi imperdiet vulputate nisi, et consectetur purus consequat at. Nunc dictum vehicula lobortis. Aliquam dapibus sed arcu in vestibulum. Aliquam non elementum elit. Mauris vitae leo lectus.</p>
+            </div>
+            <div class="l-third__col">
+              <h3>1/3 column</h3>
+              <p>Etiam fermentum, nisi eget mattis pulvinar, metus ligula ullamcorper elit, blandit ullamcorper ligula ligula a dui. Pellentesque sollicitudin quam sit amet diam viverra luctus.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-sep">
+      <div class="test-grid">
+        <div class="container">
+          <h2>Test grid</h2>
+          <div class="col">col1</div>
+          <div class="col">col2</div>
+          <div class="col">col3</div>
+          <div class="col">col4</div>
+          <div class="col">col5</div>
+          <div class="col">col6</div>
+          <div class="col">col7</div>
+          <div class="col">col8</div>
+          <div class="col">col9</div>
+          <div class="col">col10</div>
+          <div class="col">col11</div>
+          <div class="col">col12</div>
+        </div>
+      </div>
+    </div>
+  </main> <!-- END main -->
+
+  <aside class="sidebar" role="complementary">
     A potential sidebar
-</aside> <!-- END .sidebar -->
+  </aside> <!-- END .sidebar -->
 
-<footer class="footer" role="contentinfo">
-    &copy; 2016
-</footer> <!-- END .footer -->
-
-<script src="assets/dist/js/bundle.js"></script>
-
-
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      &copy; 2019
+    </div>
+  </footer> <!-- END .footer -->
+  <script src="assets/dist/js/bundle.js"></script>
 </body>
 </html>

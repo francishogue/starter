@@ -20,8 +20,8 @@ textarea {
 }
 
 body {
-    @include breakpoint-label;
-    background: #fff;
+    @include breakpoint-label; // TODO: remove before pushing to DEV/STAGE/PROD
+    background: $mirum-bone;
     font-size: $font-size-base;
     line-height: $line-height-base;
 }
