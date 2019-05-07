@@ -4,140 +4,133 @@
 
 /**
  * All the code related to the mq mixin
+ * Heavily based on Bootstrap's mixins
  */
 
+// Returns the susy grid value if any or null
+@function mq-susy-grid($name, $grids: $susy-grids) {
+    $grid: map-get($grids, $name);
+    @return if($grid != null, $grid, null);
+}
 
-/// Media query merger
-/// Create a single media condition out of a map of queries
-/// @param {Map} $queries - Map of media queries
-@mixin media($queries) {
-    @if length($queries) == 0 {
-        @content;
-    } @else {
-        $first-key: nth(map-keys($queries), 1);
+// Name of the next breakpoint, or null for the last breakpoint.
+@function mq-next($name, $breakpoints: $grid-breakpoints, $breakpoint-names: map-keys($breakpoints)) {
+    $n: index($breakpoint-names, $name);
+    @return if($n != null and $n < length($breakpoint-names), nth($breakpoint-names, $n + 1), null);
+}
 
-        @media ($first-key: map-get($queries, $first-key)) {
-            $queries: map-remove($queries, $first-key);
+// Minimum breakpoint width. Null for the smallest (first) breakpoint.
+@function mq-min($name, $breakpoints: $grid-breakpoints) {
+    $min: map-get($breakpoints, $name);
+    @return if($min != 0, $min, null);
+}
 
-            @include media($queries) {
+// Maximum breakpoint width. Null for the largest (last) breakpoint.
+// The maximum value is calculated as the minimum of the next one less 0.02px
+// to work around the limitations of `min-` and `max-` prefixes and viewports with fractional widths.
+@function mq-max($name, $breakpoints: $grid-breakpoints) {
+    $next: mq-next($name, $breakpoints);
+    @return if($next, mq-min($next, $breakpoints) - .02, null);
+}
+
+// Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
+// Makes the @content apply to the given breakpoint and wider.
+@mixin mq($name, $breakpoints: $grid-breakpoints) {
+    $min: mq-min($name, $breakpoints);
+    $grid: mq-susy-grid($name, $susy-grids);
+    @if $min {
+        @if $grid {
+            @include susy-breakpoint($min, $grid) {
+                @content;
+            }
+        } @else {
+            @media (min-width: $min) {
                 @content;
             }
         }
-    }
-}
-
-@mixin mq($breakpoint) {
-    // Get the query map for $breakpoints map
-    $queries: map-get($breakpoints, $breakpoint);
-
-    // If there is no query called $breakpoint in map, throw an error
-    @if not $queries {
-        @error "No value could be retrieved from `#{$breakpoint}`. "
-        + "Please make sure it is defined in `$breakpoints` map.";
-    }
-
-    // Include the media mixin with $queries
-    @include media($queries) {
+    } @else {
         @content;
     }
 }
 
-// Breakpoints tests (only here for reference and ordering)
-// Desktop first breakpoint test
-.h-breakpoint {
-    &:before {
-        display: block;
-        content: "--xsmall (default --> screen size: 0 - 479px)";
-    }
-
-    //@include mq('tall') {
-    //  color: green;
-    //}
-
-    @include mq('xsmall') {
-        &:before {
-            content: 'xsmall (default --> screen size: 0 - 479px)';
+// Media of at most the maximum breakpoint width. No query for the largest breakpoint.
+// Makes the @content apply to the given breakpoint and narrower.
+@mixin mq-down($name, $breakpoints: $grid-breakpoints) {
+    $max: mq-max($name, $breakpoints);
+    @if $max {
+        @media (max-width: $max) {
+            @content;
         }
+    } @else {
+        @content;
     }
-
-    @include mq('small') {
-        &:before {
-            content: "small (default --> screen size: 480px - 599px)";
-        }
-    }
-
-    @include mq('medium') {
-        &:before {
-            content: "medium --> screen size: 600px to 767px";
-        }
-    }
-
-    @include mq('large') {
-        &:before {
-            content: "large --> screen size: 768px - 1024px";
-        }
-    }
-
-    @include mq('xlarge') {
-        &:before {
-            content: "xlarge --> screen size 1025px - 1199px";
-        }
-    }
-
-    @include mq('xxlarge') {
-        &:before {
-            content: "xxlarge --> screen size 1200px ++";
-        }
-    }
-
 }
 
+// Media between the breakpoint's minimum and maximum widths.
+// No minimum for the smallest breakpoint, and no maximum for the largest one.
+// Makes the @content apply only to the given breakpoint, not viewports any wider or narrower.
+@mixin mq-only($name, $breakpoints: $grid-breakpoints) {
+    $min: mq-min($name, $breakpoints);
+    $max: mq-max($name, $breakpoints);
+
+    @if $min != null and $max != null {
+        @media (min-width: $min) and (max-width: $max) {
+            @content;
+        }
+    } @else if $max == null {
+        @include mq($name, $breakpoints) {
+            @content;
+        }
+    } @else if $min == null {
+        @include mq-down($name, $breakpoints) {
+            @content;
+        }
+    }
+}
+
+// Breakpoint on-page label to display current breakpoint size
 @mixin breakpoint-label {
-    &:before {
+    &::before {
         display: block;
-        color: white;
-        font-size: 12px;
+        color: pink;
+        font-size: 18px;
         position: fixed;
         padding: 0 7px;
         font-family: Courier, sans-serif;
         bottom: 0;
         right: 0;
-        background-color: rgba(0, 0, 0, .3);
-        content: "--small (default --> screen size: 0 - 479px)";
+        background-color: rgba(0, 0, 0, .8);
+        z-index: 999999;
+        content: "default";
     }
 
-    @include mq('xsmall') {
-        &:before {
-            content: "xsmall (default --> screen size: 0 - 479px)";
+    @include mq(xsmall) {
+        &::before {
+            content: "xsmall";
         }
     }
 
-    @include mq('small') {
-        &:before {
-            content: "small (default --> screen size: 480px - 599px)";
+    @include mq(small) {
+        &::before {
+            content: "small";
         }
     }
 
-    @include mq('medium') {
-        &:before {
-            content: "medium --> screen size: 600px to 839px";
+    @include mq(medium) {
+        &::before {
+            content: "medium";
         }
     }
 
-    @include mq('large') {
-        &:before {
-            content: "large --> screen size: 840px - 959px";
+    @include mq(large) {
+        &::before {
+            content: "large";
         }
     }
 
-    @include mq('xlarge') {
-        &:before {
-            content: "xlarge --> screen size 960px - 1199px";
-        }
-    }
-    @include mq('xxlarge') {
-        &:before {
-            content: "xxlarge --> screen size 1200px ++";
+    @include mq(xlarge) {
+        &::before {
+            content: "xlarge";
         }
     }
 }

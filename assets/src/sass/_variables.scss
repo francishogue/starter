@@ -8,30 +8,16 @@
  */
 
 
-/* Breakpoints
-   ========================================================================= */
-
-// xsmall: 0
-// small: 480px
-// medium: 600px
-// large: 840px
-// xlarge: 1024px
-// xxlarge: 1200px
-
-$breakpoints: (
-    xsmall: (min-width: 0),
-    small: (min-width: 30em),
-    medium: (min-width: 37.5em),
-    large: (min-width: 52.5em),
-    xlarge: (min-width: 62.75em),
-    xxlarge: (min-width: 75em)
-);
-
-
-
-
 /* Colors
    ========================================================================= */
+
+$mirum-purple:                           #321C38;
+$mirum-bone:                             #F2F5F0;
+$mirum-red:                              #EB2F25;
+$mirum-fuchsia:                          #E24598;
+$mirum-blue:                             #4CC8ED;
+$mirum-green:                            #14A74A;
+$mirum-yellow:                           #FAED50;
 
 
 
@@ -40,14 +26,14 @@ $breakpoints: (
    ========================================================================= */
 
 // Fonts stacks
-$font-stack: Arial, Verdana, sans-serif;
+$font-stack: Arial, sans-serif;
 $font-stack-alt: Georgia, serif;
 $font-size-base: 16px;
 $line-height-base: 1.4;
 
 // Default text and link color
-$color-text: #333;
-$color-link: #ff0000;
+$color-text: $mirum-purple;
+$color-link: $mirum-red;
 $color-link-visited: lighten($color-link, 20%);
 $color-link-hover: darken($color-link, 20%);
 $color-link-active: darken($color-link, 40%);
@@ -58,8 +44,8 @@ $color-link-active: darken($color-link, 40%);
 /* Other
    ========================================================================= */
 
-$color-selection: #ff0000;
-$color-placeholder: #ff0000;
+$color-selection: $mirum-fuchsia;
+$color-placeholder: $mirum-fuchsia;
 
 
 
@@ -67,17 +53,31 @@ $color-placeholder: #ff0000;
 /* Layout and Susy's grid
    ========================================================================= */
 
-$padding-container-small: 20px;
+// Breakpoints
+$grid-breakpoints: (
+    xsmall: 30em,        // 480px
+    small: 33.75em,      // 540px
+    medium: 45em,        // 720px
+    large: 60em,         // 960px
+    xlarge: 80em         // 1280px
+);
 
-// TODO: add the tablet size custom grid settings
-$padding-container-medium: 20px;
+// Grid padding
+$grid-padding-xsmall: 6%;
+$grid-padding-medium: 5.9%;
+$grid-padding-large: 5.5%;
+$grid-padding-xlarge: 54px;
 
-// TODO: confirm with the designer if this number makes sense
-$padding-container-xlarge: 30px;
+// Susy's grids (other than mobile/default)
+// sass-lint:disable indentation
+$susy-grids: (
+    medium: 1280px 12 (18px/40px) fluid after ltr,
+    large: 1280px 12 (18px/40px) fluid after ltr,
+    xlarge: 1280px 12 (18px/40px) fluid after ltr
+);
+// sass-lint:enable indentation
 
-$susy-medium: 8 (16px/56px) fluid split ltr;
-$susy-xlarge: 960px 12 (20px/60px) fluid split ltr;
-
+// Susy's grid mobile and default settings (because mobile first)
 $susy: (
     flow: ltr, // ltr | rtl
     output: float, // float | isolate
@@ -87,7 +87,7 @@ $susy: (
     container-position: center, // left | center | right | <length> [*2] (grid padding)
     last-flow: to,
     columns: 4,
-    gutters: 0,
+    gutters: 16px/66px,
     gutter-position: after, // before | after | split | inside | inside-static (requires column-width)
     global-box-sizing: border-box, // content-box | border-box (affects inside/inside-static)
     debug: (

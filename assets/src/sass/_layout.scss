@@ -6,66 +6,82 @@
  * Styles for the container (Susy)
  */
 
-
 .container {
     @include container;
-    padding-left: $padding-container-small;
-    padding-right: $padding-container-small;
+    padding-left: $grid-padding-xsmall;
+    padding-right: $grid-padding-xsmall;
 
-    // For testing only (see where the grid ends in relation to the .container
-    border: 1px solid blue;
+    @include mq(medium) {
+        $grid: mq-susy-grid(medium);
+        @include container($grid);
+        padding-left: $grid-padding-medium;
+        padding-right: $grid-padding-medium;
+    }
 
-    // TODO: setup tablet size layouts/grid
-    // @include mq(medium) {
-    //     @include container($susy-medium);
-    //     padding-left: $padding-container-medium;
-    //     padding-right: $padding-container-medium;
-    // }
+    @include mq(large) {
+        // $grid: mq-susy-grid(large);
+        // @include container($grid);
+        padding-left: $grid-padding-large;
+        padding-right: $grid-padding-large;
+    }
 
     @include mq(xlarge) {
-        @include container($susy-xlarge);
-        padding-left: $padding-container-xlarge;
-        padding-right: $padding-container-xlarge;
+        padding-left: $grid-padding-xlarge;
+        padding-right: $grid-padding-xlarge;
     }
 }
 
 
 /**
  * EXAMPLE of:
- * Full width on mobile - 50/50 on desktop
+ * Full width on small & under
+ * 50/50 on medium & over
  */
 
 .l-half {
     @include clearfix;
-    background: grey;
-    padding: 50px 0;
+    background: rgba(100, 100, 100, 0.3);
 }
 
 .l-half__col {
     @include span(4);
+    background: $mirum-yellow;
 
-    background: green;
+    @include mq(small) {
+        @include span(2);
 
-    @include susy-breakpoint(map-get($breakpoints, xlarge), $susy-xlarge) {
-        @include span(6);
+        &:nth-child(odd) {
+            @include last;
+        }
+    }
+
+    @include mq(medium) {
+        @include span(6 of 12);
     }
 }
 
-// TEMPORARY, used to test the grid settings
-.grid-test {
-    background: grey;
-    padding: 50px 0;
 
-    .container > div {
-        @include span(4);
+/**
+ * EXAMPLE of:
+ * Full width on small & under
+ * 1/3 on medium & over
+ */
 
-        background: green;
-    }
+.l-third {
+    @include clearfix;
+    background: rgba(100, 100, 100, 0.3);
+}
 
-    // You need to use this Susy mediaquery mixin if you need to use any Susy methods (span, bleed, push, pre, etc)
-    @include susy-breakpoint(map-get($breakpoints, xlarge), $susy-xlarge) {
-        .container > div {
-            @include span(1);
+.l-third__col {
+    @include span(4);
+    background: $mirum-green;
+    margin-bottom: 20px;
+
+    @include mq(medium) {
+        @include span(4 of 12);
+
+        &:nth-child(3n) {
+            @include last;
         }
     }
 }

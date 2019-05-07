@@ -1,18 +1,22 @@
 /*
   For:
-  Author:
+  Author(s):
   Date:
 */
 
 /*!
-Project Name
+Project name
 */
 
 // Normalize.css (from node_modules/)
 @import "import-now";
+@import "rem";
 
 // Susy grid (from node_modules/)
 @import "susy";
+
+// All vendor/plugins
+@import "vendor/**/*.scss";
 
 // Mixins, helpers & variables (@font-face fonts are in variables)
 @import "variables";
@@ -26,7 +30,7 @@ Project Name
 @import "layout";
 
 // Components
-@import "components";
+@import "components/**/*.scss";
 
 // Print
 @import "print";

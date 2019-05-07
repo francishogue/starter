@@ -1,0 +1,59 @@
+/* ============================================================================
+   COMPONENTS -> TEMPORARY
+   ========================================================================= */
+
+/**
+ * Temporary styles for the grid and some tests.
+ */
+
+.test-sep {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 30px 0;
+}
+
+.test-hero {
+    background: $mirum-purple;
+    color: $mirum-bone;
+    padding: 50px;
+
+    h1,
+    p {
+        margin: 0;
+    }
+}
+
+.test-grid {
+    background: rgba(100, 100, 100, 0.3);
+    padding: 30px 0;
+
+    .container > div {
+        @include span(1);
+        background: $mirum-blue;
+        margin-bottom: 10px;
+
+
+    }
+
+    @include mq-down(small) {
+        .container > div:nth-child(4n+1) {
+            @include last;
+        }
+    }
+
+    @include mq-only(medium) {
+        .container > div {
+            outline: 3px solid pink;
+        }
+    }
+
+    @include mq(medium) {
+        .container > div {
+            @include span(1 of 12);
+
+            &:nth-child(12n+1) {
+                @include last;
+            }
+        }
+    }
+}
