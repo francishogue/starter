@@ -3,12 +3,22 @@
    ========================================================================= */
 
 /**
- * Base styles for all the core elements
+ * Set up a decent box model on the root element
+ * See: https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
  */
 
-*,
-*:before,
-*:after { box-sizing: border-box; }
+html {
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+
+/**
+ * Base styles for all the core elements
+ */
 
 html,
 button,
