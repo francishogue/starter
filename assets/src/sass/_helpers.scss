@@ -7,18 +7,18 @@
  */
 
 // Clearfix
-.clearfix {
+.h-clearfix {
     @include clearfix;
 }
 
 // Hide from both screenreaders and browsers: h5bp.com/u
-.hidden {
+.h-hidden {
     display: none !important; // sass-lint:disable-line no-important
     visibility: hidden;
 }
 
 // Hide only visually, but have it available for screenreaders: h5bp.com/v
-.visuallyhidden {
+.h-visually-hidden {
     border: 0;
     clip: rect(0 0 0 0);
     height: 1px;
@@ -29,14 +29,19 @@
     width: 1px;
 }
 
-// Extends the .visuallyhidden class to allow the element to be focusable
+// Extends the .h-visually-hidden class to allow the element to be focusable
 // when navigated to via the keyboard: h5bp.com/p
-.visuallyhidden.focusable:active,
-.visuallyhidden.focusable:focus {
+.h-visually-hidden.h-focusable:active,
+.h-visually-hidden.h-focusable:focus {
     clip: auto;
     height: auto;
     margin: 0;
     overflow: visible;
     position: static;
     width: auto;
+}
+
+// Simple center text alignment
+.h-center {
+    text-align: center;
 }

@@ -38,7 +38,8 @@ $color-link-visited: lighten($color-link, 20%);
 $color-link-hover: darken($color-link, 20%);
 $color-link-active: darken($color-link, 40%);
 
-
+// Focus
+$color-focus: darken($color-link, 20%);
 
 
 /* Other
@@ -55,7 +56,7 @@ $color-placeholder: $mirum-fuchsia;
 
 // Breakpoints
 $grid-breakpoints: (
-    xsmall: 30em,        // 480px
+    xsmall: 22.5em,      // 360px
     small: 33.75em,      // 540px
     medium: 45em,        // 720px
     large: 60em,         // 960px
@@ -71,9 +72,7 @@ $grid-padding-xlarge: 54px;
 // Susy's grids (other than mobile/default)
 // sass-lint:disable indentation
 $susy-grids: (
-    medium: 1280px 12 (18px/40px) fluid after ltr,
-    large: 1280px 12 (18px/40px) fluid after ltr,
-    xlarge: 1280px 12 (18px/40px) fluid after ltr
+    medium: 1280px 12 (18px/40px) fluid after ltr
 );
 // sass-lint:enable indentation
 
