@@ -1,0 +1,18 @@
+/* ============================================================================
+   COMPONENTS -> SKIP LINK
+   ========================================================================= */
+
+.skip-link {
+    display: inline-block;
+    background-color: $mirum-purple;
+    color: #fff;
+    font-size: rem(18px);
+    text-decoration: none;
+    padding: 15px 30px;
+    z-index: 100000;
+    transition: top .75s ease-out;
+
+    &:focus {
+        color: #fff;
+    }
+}

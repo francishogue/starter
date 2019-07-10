@@ -38,7 +38,8 @@ $color-link-visited: lighten($color-link, 20%);
 $color-link-hover: darken($color-link, 20%);
 $color-link-active: darken($color-link, 40%);
 
-
+// Focus
+$color-focus: darken($color-link, 20%);
 
 
 /* Other
