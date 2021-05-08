@@ -58,7 +58,7 @@
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.8",
     "js-yaml": "^3.10.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.21",
     "node-notifier": "^5.1.2",
     "path": "^0.12.7",
     "rollup": "^0.66.2",
